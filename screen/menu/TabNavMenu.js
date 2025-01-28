@@ -7,54 +7,70 @@ const Tab = createBottomTabNavigator();
 const TabNavMenu = () => {
   return (
     <Tab.Navigator
-      screenOptions={({route}) => ({
+      screenOptions={{
         headerShown: false,
-        tabBarShowLabel: false,
         tabBarStyle: {
-          height: 70,
-          paddingBottom: 10,
-          paddingTop: 10,
+          height: 60,
+          paddingHorizontal: 5,
+          paddingTop: 5,
+          paddingBottom: 5,
+          backgroundColor: '#FFFFFF',
         },
-        tabBarIcon: ({focused}) => {
-          let iconName;
-          let label;
-
-          if (route.name === 'Home') {
-            iconName = require('../../assets/image/tabbar/Home.png');
-            label = 'Home';
-          } else if (route.name === 'Collections') {
-            iconName = require('../../assets/image/tabbar/Collections.png');
-            label = 'Collections';
-          } else if (route.name === 'Encyclopedia') {
-            iconName = require('../../assets/image/tabbar/Encyclopedia.png');
-            label = 'Encyclopedia';
-          } else if (route.name === 'Profile') {
-            iconName = require('../../assets/image/tabbar/Profile.png');
-            label = 'Profile';
-          }
-
-          return (
-            <View style={[
-              styles.tabItem,
-              focused && styles.activeTabItem
-            ]}>
-              <Image
-                source={iconName}
-                style={[
-                  styles.tabIcon,
-                  focused && styles.activeTabIcon
-                ]}
-                resizeMode="contain"
-              />
-              {focused && <Text style={styles.tabLabel}>{label}</Text>}
-            </View>
-          );
-        },
-      })}>
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Collections" component={Collections} />
-      <Tab.Screen name="Encyclopedia" component={Encyclopedia} />
-      <Tab.Screen name="Profile" component={Profile} />
+        tabBarActiveTintColor: '#FDACFD',
+        tabBarInactiveTintColor: '#999999',
+      }}>
+      <Tab.Screen
+        name="Home"
+        component={Home}
+        options={{
+          tabBarIcon: ({focused, color}) => (
+            <Image
+              source={require('../../assets/image/tabbar/Home.png')}
+              style={[styles.icon, {tintColor: color}]}
+              resizeMode="contain"
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Collections"
+        component={Collections}
+        options={{
+          tabBarIcon: ({focused, color}) => (
+            <Image
+              source={require('../../assets/image/tabbar/Collections.png')}
+              style={[styles.icon, {tintColor: color}]}
+              resizeMode="contain"
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Encyclopedia"
+        component={Encyclopedia}
+        options={{
+          tabBarIcon: ({focused, color}) => (
+            <Image
+              source={require('../../assets/image/tabbar/Encyclopedia.png')}
+              style={[styles.icon, {tintColor: color}]}
+              resizeMode="contain"
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: ({focused, color}) => (
+            <Image
+              source={require('../../assets/image/tabbar/Profile.png')}
+              style={[styles.icon, {tintColor: color}]}
+              resizeMode="contain"
+            />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };
@@ -62,29 +78,8 @@ const TabNavMenu = () => {
 export default TabNavMenu;
 
 const styles = StyleSheet.create({
-  tabItem: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 20,
-    borderRadius: 25,
-  },
-  activeTabItem: {
-    backgroundColor: '#FDACFD',
-    flexDirection: 'row',
-    paddingVertical: 8,
-    gap: 8,
-  },
-  tabIcon: {
+  icon: {
     width: 24,
     height: 24,
-    tintColor: '#999999',
-  },
-  activeTabIcon: {
-    tintColor: '#FFFFFF',
-  },
-  tabLabel: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontWeight: '600',
   },
 });
