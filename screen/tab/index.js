@@ -1,3 +1,5 @@
 import Home from './Home';
-
-export {Home};
+import Collections from './Collections';
+import Encyclopedia from './Encyclopedia';
+import Profile from './Profile';
+export {Home, Collections, Encyclopedia, Profile};
