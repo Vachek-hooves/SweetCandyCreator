@@ -2,7 +2,7 @@ export const SWEET_ENCYCLOPEDIA = [
     {
         id: 1,
         name: 'Chocolate Paradise',
-        image: {uri: 'https://lulu.kiev.ua/wp-content/webpc-passthru.php?src=https://lulu.kiev.ua/wp-content/uploads/77d79c4e4c5dae475714311ea03e7a09.jpg&nocache=1'},
+        image: {uri: 'https://c8.alamy.com/comp/R0X598/chocolate-paradise-in-boxes-R0X598.jpg'},
         origin:'Chocolate Paradise is a great combination of dark and milk chocolate, which was created at the beginning of the 20th century by the French pastry chef Jean Bon.',
         features:'Chocolates "Chocolate Paradise" have a delicate chocolate taste with light notes of vanilla and nuts, melting smoothly in the mouth and leaving an aftertaste of bliss.'
     },
@@ -23,7 +23,7 @@ export const SWEET_ENCYCLOPEDIA = [
     {
         id: 4,
         name: 'Fruit delight',
-        image: {uri: 'https://i.ytimg.com/vi/kYA7Jg70Uwo/maxresdefault.jpg'},
+        image: {uri: 'https://libertyorchards.com/cdn/shop/products/BerryDelight2.jpg?v=1724062883'},
         origin:'Fruit Delight is an exotic combination of a variety of fruits inspired by the culinary traditions of Thailand.',
         features:'Each candy offers a mix of bright fruit flavors, from kiwi to strawberry, creating a real festive mood.'
     },
@@ -125,13 +125,7 @@ export const SWEET_ENCYCLOPEDIA = [
         origin: 'Developed in Scotland using traditional methods of toffee-making passed down through generations.',
         features: 'Buttery toffee pieces mixed with crunchy nuts and covered in milk chocolate.'
     },
-    {
-        id: 19,
-        name: 'Lemon Meringue',
-        image: { uri: 'https://www.allrecipes.com/thmb/cRVxFconhenCZFaMOYjXyJNrzSA=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/15093-grandmas-lemon-meringue-pie-ddmfs-step-beauty-3x4-0537-3704a7a94484447b93a80e6458046e22.jpg' },
-        origin: 'Inspired by the classic pie, this candy was developed by French pastry chefs.',
-        features: 'Light, airy meringue combined with tangy lemon creates a refreshing and unique candy experience.'
-    }
+   
 
 
 ]
