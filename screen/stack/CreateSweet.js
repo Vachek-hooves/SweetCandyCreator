@@ -26,6 +26,7 @@ const CreateSweet = ({navigation}) => {
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [colorPickerType, setColorPickerType] = useState(null); // 'candy' or 'package'
   const [tempColor, setTempColor] = useState('#FFFFFF');
+  console.log(tempColor);
 
   const handleNext = () => {
     if (currentStep < totalSteps) {
