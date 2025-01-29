@@ -322,17 +322,17 @@ const styles = StyleSheet.create({
   },
   tasteButton: {
     backgroundColor: '#F5F5F5',
-    borderRadius: 15,
+    borderRadius: 50,
     padding: 15,
     marginBottom: 10,
   },
   selectedTaste: {
     backgroundColor: '#FDACFD20',
     borderColor: '#FDACFD',
-    borderWidth: 2,
+    borderWidth: 3,
   },
   tasteText: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#666',
     fontWeight: '500',
   },
