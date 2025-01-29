@@ -23,17 +23,23 @@ const Profile = () => {
       {/* Menu Items */}
       <TouchableOpacity style={styles.menuItem}>
         <Text style={styles.menuText}>Developer Website</Text>
-        <Text style={styles.arrow}>›</Text>
+        <View style={styles.arrowContainer}>
+          <Text style={styles.arrow}>›</Text>
+        </View>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.menuItem}>
         <Text style={styles.menuText}>Privacy Policy</Text>
-        <Text style={styles.arrow}>›</Text>
+        <View style={styles.arrowContainer}>
+          <Text style={styles.arrow}>›</Text>
+        </View>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.menuItem}>
         <Text style={styles.menuText}>Terms of Use</Text>
-        <Text style={styles.arrow}>›</Text>
+        <View style={styles.arrowContainer}>
+          <Text style={styles.arrow}>›</Text>
+        </View>
       </TouchableOpacity>
     </View>
   );
@@ -111,7 +117,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   arrow: {
-    fontSize: 20,
-    color: '#FFB6F3',
+    fontSize: 26,
+    color: '#FFF',
+    padding: 15,
+  },
+  arrowContainer: {
+    backgroundColor: '#FFB6F3',
+    borderRadius: 50,
+    // padding: 5,
+    // borderRadius: 5,
   },
 });
