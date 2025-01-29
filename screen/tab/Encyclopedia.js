@@ -1,46 +1,59 @@
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native'
-import React from 'react'
-import { useAppContext } from '../../store/context'
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import React from 'react';
+import {useAppContext} from '../../store/context';
 
-const EncyclopediaItem = ({ item }) => (
-  <TouchableOpacity style={styles.itemContainer}>
+const EncyclopediaItem = ({item, navigation}) => (
+  <TouchableOpacity
+    style={styles.itemContainer}
+    onPress={() => {
+      navigation.navigate('EncyclopediaItemDetails', {item});
+    }}>
     <View style={styles.imageContainer}>
-      <Image 
-        source={item.image} 
-        style={styles.image}
-        resizeMode="cover"
-      />
+      <Image source={item.image} style={styles.image} resizeMode="cover" />
     </View>
     <Text style={styles.itemName}>{item.name}</Text>
   </TouchableOpacity>
-)
+);
 
-const Encyclopedia = () => {
-  const { encyclopediaData, isLoading } = useAppContext()
+const Encyclopedia = ({navigation}) => {
+  const {encyclopediaData, isLoading} = useAppContext();
 
   if (isLoading) {
     return (
       <View style={styles.container}>
         <Text>Loading...</Text>
       </View>
-    )
+    );
   }
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Encyclopedia</Text>
-      <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}>
         <View style={styles.grid}>
-          {encyclopediaData.map((item) => (
-            <EncyclopediaItem key={item.id} item={item} />
+          {encyclopediaData.map(item => (
+            <EncyclopediaItem
+              key={item.id}
+              item={item}
+              navigation={navigation}
+            />
           ))}
         </View>
       </ScrollView>
     </View>
-  )
-}
+  );
+};
 
-export default Encyclopedia
+export default Encyclopedia;
 
 const styles = StyleSheet.create({
   container: {
@@ -86,5 +99,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     textAlign: 'center',
-  }
-})
+  },
+});
