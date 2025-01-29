@@ -14,7 +14,7 @@ import {useAppContext} from '../../store/context';
 
 const egg = require('../../assets/image/vector/empty.png');
 
-const SweetCard = ({ sweet }) => {
+const SweetCard = ({sweet, navigation}) => {
   const candyImages = [
     require('../../assets/image/candy/candy1.png'),
     require('../../assets/image/candy/candy2.png'),
@@ -24,9 +24,12 @@ const SweetCard = ({ sweet }) => {
   ];
 
   return (
-    <View style={styles.cardContainer}>
-      <View style={[styles.cardContent, { borderColor: sweet.packageColor }]}>
-        <View style={[styles.imageContainer, { backgroundColor: sweet.candyColor }]}>
+    <TouchableOpacity
+      style={styles.cardContainer}
+      onPress={() => navigation.navigate('CandyDetails', {sweet})}>
+      <View style={[styles.cardContent, {borderColor: sweet.packageColor}]}>
+        <View
+          style={[styles.imageContainer, {backgroundColor: sweet.candyColor}]}>
           <Image
             source={require('../../assets/image/icons/lollipop.png')}
             style={styles.candyIcon}
@@ -35,7 +38,7 @@ const SweetCard = ({ sweet }) => {
         </View>
         <Image
           source={candyImages[sweet.candyIndex]}
-          style={[styles.candyImage, { tintColor: sweet.packageColor }]}
+          style={[styles.candyImage, {tintColor: sweet.packageColor}]}
           resizeMode="contain"
         />
         <Text style={styles.candyName} numberOfLines={1}>
@@ -45,7 +48,7 @@ const SweetCard = ({ sweet }) => {
           {sweet.taste}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -74,8 +77,8 @@ const Home = ({navigation}) => {
           <EmptyState />
         ) : (
           <View style={styles.grid}>
-            {sweets.map((sweet) => (
-              <SweetCard key={sweet.id} sweet={sweet} />
+            {sweets.map(sweet => (
+              <SweetCard key={sweet.id} sweet={sweet} navigation={navigation} />
             ))}
           </View>
         )}
@@ -86,8 +89,8 @@ const Home = ({navigation}) => {
         <TouchableOpacity
           style={styles.addButton}
           onPress={() => navigation.navigate('CreateSweet')}>
-            <View></View>
-          <Text style={styles.buttonText}>Add</Text>
+          <View></View>
+          <Text style={styles.buttonText}>ADD</Text>
           <View style={styles.arrowContainer}>
             <Image
               source={require('../../assets/image/icons/arrow.png')}
@@ -157,7 +160,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignItems: 'center',
     marginBottom: 15,
-    marginHorizontal:10
+    marginHorizontal: 10,
   },
   candyIcon: {
     width: '100%',
@@ -204,7 +207,7 @@ const styles = StyleSheet.create({
     height: 56,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: 20,
     // Shadow
     shadowColor: '#000',
@@ -218,7 +221,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: 'bold',
     marginRight: 10,
   },

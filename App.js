@@ -6,6 +6,7 @@ import {CreateSweet, Welcome} from './screen/stack';
 import TabNavMenu from './screen/menu/TabNavMenu';
 import {AppProvider} from './store/context';
 import EncyclopediaItemDetails from './screen/stack/EncyclopediaItemDetails';
+import CandyDetails from './screen/stack/CandyDetails';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             component={EncyclopediaItemDetails}
           />
           <Stack.Screen name="CreateSweet" component={CreateSweet} />
+          <Stack.Screen name="CandyDetails" component={CandyDetails} />
         </Stack.Navigator>
       </NavigationContainer>
     </AppProvider>
