@@ -138,7 +138,7 @@ const TabNavMenu = () => {
               iconSource = require('../../assets/image/tabbar/Encyclopedia.png');
               break;
             case 'Profile':
-              iconSource = require('../../assets/image/tabbar/Profile.png');
+              iconSource = require('../../assets/image/icons/add.png');
               break;
             case 'Collections':
               iconSource = require('../../assets/image/tabbar/Collections.png');
