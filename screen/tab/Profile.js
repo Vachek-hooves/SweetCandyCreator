@@ -7,6 +7,7 @@ import {
   Alert,
   Modal,
   TextInput,
+  ScrollView,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -173,76 +174,78 @@ const Profile = () => {
 
   return (
     <View style={styles.container}>
-      <Modal visible={showNameInput} transparent animationType="fade">
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Create Profile</Text>
-            <Text style={styles.modalSubtitle}>Please enter your name</Text>
+      <ScrollView>
+        <Modal visible={showNameInput} transparent animationType="fade">
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalTitle}>Create Profile</Text>
+              <Text style={styles.modalSubtitle}>Please enter your name</Text>
 
-            <TextInput
-              style={styles.input}
-              value={inputName}
-              onChangeText={setInputName}
-              placeholder="Enter your name"
-              autoFocus
-            />
+              <TextInput
+                style={styles.input}
+                value={inputName}
+                onChangeText={setInputName}
+                placeholder="Enter your name"
+                autoFocus
+              />
 
-            <View style={styles.modalButtons}>
-              <TouchableOpacity
-                style={styles.modalButton}
-                onPress={() => {
-                  setShowNameInput(false);
-                  setInputName('');
-                }}>
-                <Text style={styles.buttonText}>Cancel</Text>
-              </TouchableOpacity>
+              <View style={styles.modalButtons}>
+                <TouchableOpacity
+                  style={styles.modalButton}
+                  onPress={() => {
+                    setShowNameInput(false);
+                    setInputName('');
+                  }}>
+                  <Text style={styles.buttonText}>Cancel</Text>
+                </TouchableOpacity>
 
-              <TouchableOpacity
-                style={[styles.modalButton, styles.createButton]}
-                onPress={handleCreateProfile}>
-                <Text style={[styles.buttonText, styles.createButtonText]}>
-                  Create
-                </Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.modalButton, styles.createButton]}
+                  onPress={handleCreateProfile}>
+                  <Text style={[styles.buttonText, styles.createButtonText]}>
+                    Create
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </Modal>
+        </Modal>
 
-      <Text style={styles.title}>Profile</Text>
+        <Text style={styles.title}>Profile</Text>
 
-      {userName ? (
-        <ProfileCard
-          userName={userName}
-          userImage={userImage}
-          onImagePress={pickImage}
-          onDeletePress={handleDeleteProfile}
-        />
-      ) : (
-        <EmptyProfile onCreatePress={() => setShowNameInput(true)} />
-      )}
+        {userName ? (
+          <ProfileCard
+            userName={userName}
+            userImage={userImage}
+            onImagePress={pickImage}
+            onDeletePress={handleDeleteProfile}
+          />
+        ) : (
+          <EmptyProfile onCreatePress={() => setShowNameInput(true)} />
+        )}
 
-      {/* Menu Items */}
-      <TouchableOpacity style={styles.menuItem}>
-        <Text style={styles.menuText}>Developer Website</Text>
-        <View style={styles.arrowContainer}>
-          <Text style={styles.arrow}>›</Text>
-        </View>
-      </TouchableOpacity>
+        {/* Menu Items */}
+        <TouchableOpacity style={styles.menuItem}>
+          <Text style={styles.menuText}>Developer Website</Text>
+          <View style={styles.arrowContainer}>
+            <Text style={styles.arrow}>›</Text>
+          </View>
+        </TouchableOpacity>
 
-      <TouchableOpacity style={styles.menuItem}>
-        <Text style={styles.menuText}>Privacy Policy</Text>
-        <View style={styles.arrowContainer}>
-          <Text style={styles.arrow}>›</Text>
-        </View>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.menuItem}>
+          <Text style={styles.menuText}>Privacy Policy</Text>
+          <View style={styles.arrowContainer}>
+            <Text style={styles.arrow}>›</Text>
+          </View>
+        </TouchableOpacity>
 
-      <TouchableOpacity style={styles.menuItem}>
-        <Text style={styles.menuText}>Terms of Use</Text>
-        <View style={styles.arrowContainer}>
-          <Text style={styles.arrow}>›</Text>
-        </View>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.menuItem}>
+          <Text style={styles.menuText}>Terms of Use</Text>
+          <View style={styles.arrowContainer}>
+            <Text style={styles.arrow}>›</Text>
+          </View>
+        </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 };
