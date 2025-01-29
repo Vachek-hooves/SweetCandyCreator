@@ -9,6 +9,53 @@ export const useAppContext = () => useContext(AppContext);
 export const AppProvider = ({children}) => {
   const [encyclopediaData, setEncyclopediaData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [sweets, setSweets] = useState([]);
+  useEffect(() => {
+    loadSweets();
+  }, []);
+
+  // Load sweets from AsyncStorage
+  const loadSweets = async () => {
+    try {
+      const storedSweets = await AsyncStorage.getItem('@user_sweets');
+      if (storedSweets) {
+        setSweets(JSON.parse(storedSweets));
+      }
+    } catch (error) {
+      console.error('Error loading sweets:', error);
+    }
+  };
+
+  // Save new sweet
+  const saveSweet = async sweetData => {
+    try {
+      const newSweet = {
+        id: Date.now().toString(), // Simple unique ID
+        ...sweetData,
+        createdAt: new Date().toISOString(),
+      };
+
+      const updatedSweets = [...sweets, newSweet];
+      await AsyncStorage.setItem('@user_sweets', JSON.stringify(updatedSweets));
+      setSweets(updatedSweets);
+      return true;
+    } catch (error) {
+      console.error('Error saving sweet:', error);
+      return false;
+    }
+  };
+  // Delete sweet
+  const deleteSweet = async sweetId => {
+    try {
+      const updatedSweets = sweets.filter(sweet => sweet.id !== sweetId);
+      await AsyncStorage.setItem('@user_sweets', JSON.stringify(updatedSweets));
+      setSweets(updatedSweets);
+      return true;
+    } catch (error) {
+      console.error('Error deleting sweet:', error);
+      return false;
+    }
+  };
 
   // Initialize encyclopedia data
   const initializeEncyclopedia = async () => {
@@ -68,6 +115,9 @@ export const AppProvider = ({children}) => {
     isLoading,
     updateEncyclopedia,
     resetEncyclopedia,
+    sweets,
+    saveSweet,
+    deleteSweet,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

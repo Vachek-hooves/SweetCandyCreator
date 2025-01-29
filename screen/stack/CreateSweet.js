@@ -8,12 +8,15 @@ import {
   ScrollView,
   Modal,
   Dimensions,
+  Alert,
 } from 'react-native';
 import React, {useState} from 'react';
 import {launchImageLibrary} from 'react-native-image-picker';
 import ColorPicker from 'react-native-wheel-color-picker';
+import {useAppContext} from '../../store/context';
 
 const CreateSweet = ({navigation}) => {
+  const {saveSweet, sweets} = useAppContext();
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
     name: '',
@@ -63,9 +66,13 @@ const CreateSweet = ({navigation}) => {
     }
   };
 
-  const handleColorPress = (type) => {
+  const handleColorPress = type => {
     setColorPickerType(type);
-    setTempColor(type === 'candy' ? formData.candyColor || '#FFFFFF' : formData.packageColor || '#FFFFFF');
+    setTempColor(
+      type === 'candy'
+        ? formData.candyColor || '#FFFFFF'
+        : formData.packageColor || '#FFFFFF',
+    );
     setShowColorPicker(true);
   };
 
@@ -90,7 +97,7 @@ const CreateSweet = ({navigation}) => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
             source={require('../../assets/image/icons/back.png')}
-            style={[styles.headerIcon, { tintColor: '#FDACFD' }]}
+            style={[styles.headerIcon, {tintColor: '#FDACFD'}]}
           />
         </TouchableOpacity>
       );
@@ -144,43 +151,41 @@ const CreateSweet = ({navigation}) => {
 
   const renderCandyPreview = () => (
     <View style={styles.candyPreviewContainer}>
-      <TouchableOpacity 
+      <TouchableOpacity
         style={styles.arrowButton}
         onPress={() => {
           if (currentCandyIndex > 0) {
             setCurrentCandyIndex(currentCandyIndex - 1);
           }
-        }}
-      >
-        <Image 
-          source={require('../../assets/image/icons/arrow.png')} 
+        }}>
+        <Image
+          source={require('../../assets/image/icons/arrow.png')}
           style={[styles.arrowIcon, styles.leftArrow]}
         />
       </TouchableOpacity>
 
       <View style={styles.candyImageContainer}>
-        <View style={[styles.candyBackground, { backgroundColor: '#FDACFD20' }]}>
+        <View style={[styles.candyBackground, {backgroundColor: '#FDACFD20'}]}>
           <Image
             source={candyImages[currentCandyIndex]}
             style={[
               styles.candyImage,
-              formData.packageColor && { tintColor: formData.packageColor }
+              formData.packageColor && {tintColor: formData.packageColor},
             ]}
             resizeMode="contain"
           />
         </View>
       </View>
 
-      <TouchableOpacity 
+      <TouchableOpacity
         style={styles.arrowButton}
         onPress={() => {
           if (currentCandyIndex < candyImages.length - 1) {
             setCurrentCandyIndex(currentCandyIndex + 1);
           }
-        }}
-      >
-        <Image 
-          source={require('../../assets/image/icons/arrow.png')} 
+        }}>
+        <Image
+          source={require('../../assets/image/icons/arrow.png')}
           style={styles.arrowIcon}
         />
       </TouchableOpacity>
@@ -208,37 +213,41 @@ const CreateSweet = ({navigation}) => {
         </TouchableOpacity>
       ))}
 
-      <TouchableOpacity 
+      <TouchableOpacity
         style={styles.colorButton}
-        onPress={() => handleColorPress('candy')}
-      >
+        onPress={() => handleColorPress('candy')}>
         <Text style={styles.colorButtonText}>Color of the candy</Text>
         <View style={styles.colorPreviewContainer}>
           {formData.candyColor && (
-            <View 
-              style={[styles.colorPreview, { backgroundColor: formData.candyColor }]} 
+            <View
+              style={[
+                styles.colorPreview,
+                {backgroundColor: formData.candyColor},
+              ]}
             />
           )}
-          <Image 
-            source={require('../../assets/image/icons/arrow.png')} 
+          <Image
+            source={require('../../assets/image/icons/arrow.png')}
             style={styles.arrowIcon}
           />
         </View>
       </TouchableOpacity>
 
-      <TouchableOpacity 
+      <TouchableOpacity
         style={styles.colorButton}
-        onPress={() => handleColorPress('package')}
-      >
+        onPress={() => handleColorPress('package')}>
         <Text style={styles.colorButtonText}>Package color</Text>
         <View style={styles.colorPreviewContainer}>
           {formData.packageColor && (
-            <View 
-              style={[styles.colorPreview, { backgroundColor: formData.packageColor }]} 
+            <View
+              style={[
+                styles.colorPreview,
+                {backgroundColor: formData.packageColor},
+              ]}
             />
           )}
-          <Image 
-            source={require('../../assets/image/icons/arrow.png')} 
+          <Image
+            source={require('../../assets/image/icons/arrow.png')}
             style={styles.arrowIcon}
           />
         </View>
@@ -273,19 +282,39 @@ const CreateSweet = ({navigation}) => {
 
   const totalSteps = 3;
 
+  const handleSubmit = async () => {
+    const success = await saveSweet({
+      name: formData.name,
+      description: formData.description,
+      image: formData.image,
+      shape: formData.shape,
+      candyColor: formData.candyColor,
+      packageColor: formData.packageColor,
+      taste: formData.taste,
+      candyIndex: currentCandyIndex,
+    });
+
+    if (success) {
+      navigation.goBack(); // Return to previous screen on success
+    } else {
+      // Handle error - you might want to show an alert or error message
+      Alert.alert('Error', 'Failed to save candy. Please try again.');
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         {renderHeaderLeft()}
         <Text style={styles.headerTitle}>Creating candies</Text>
-        <TouchableOpacity 
-          onPress={handleNext}
-          disabled={currentStep === 1 && !isStep1Valid}
-        >
-          <Text style={[
-            styles.nextButton,
-            (currentStep === 1 && !isStep1Valid) && styles.nextButtonDisabled
-          ]}>
+        <TouchableOpacity
+          onPress={currentStep === totalSteps ? handleSubmit : handleNext}
+          disabled={currentStep === 1 && !isStep1Valid}>
+          <Text
+            style={[
+              styles.nextButton,
+              currentStep === 1 && !isStep1Valid && styles.nextButtonDisabled,
+            ]}>
             {currentStep === totalSteps ? 'Create' : 'Next'}
           </Text>
         </TouchableOpacity>
@@ -299,17 +328,15 @@ const CreateSweet = ({navigation}) => {
           : renderStep3()}
       </ScrollView>
 
-      <Modal
-        visible={showColorPicker}
-        transparent
-        animationType="fade"
-      >
+      <Modal visible={showColorPicker} transparent animationType="fade">
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>
-              {colorPickerType === 'candy' ? 'Select Candy Color' : 'Select Package Color'}
+              {colorPickerType === 'candy'
+                ? 'Select Candy Color'
+                : 'Select Package Color'}
             </Text>
-            
+
             <View style={styles.colorPickerContainer}>
               <ColorPicker
                 color={tempColor}
@@ -322,17 +349,19 @@ const CreateSweet = ({navigation}) => {
             </View>
 
             <View style={styles.modalButtons}>
-              <TouchableOpacity 
-                style={styles.modalButton} 
-                onPress={() => setShowColorPicker(false)}
-              >
+              <TouchableOpacity
+                style={styles.modalButton}
+                onPress={() => setShowColorPicker(false)}>
                 <Text style={styles.modalButtonText}>Cancel</Text>
               </TouchableOpacity>
-              <TouchableOpacity 
-                style={[styles.modalButton, styles.modalButtonConfirm]} 
-                onPress={handleColorSelect}
-              >
-                <Text style={[styles.modalButtonText, styles.modalButtonTextConfirm]}>
+              <TouchableOpacity
+                style={[styles.modalButton, styles.modalButtonConfirm]}
+                onPress={handleColorSelect}>
+                <Text
+                  style={[
+                    styles.modalButtonText,
+                    styles.modalButtonTextConfirm,
+                  ]}>
                   Select
                 </Text>
               </TouchableOpacity>
@@ -479,7 +508,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
   },
   arrowIcon: {
-    width: 24,
+    width: 30,
     height: 24,
     tintColor: '#FDACFD',
   },
@@ -593,7 +622,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   leftArrow: {
-    transform: [{ rotate: '180deg' }],
+    transform: [{rotate: '180deg'}],
   },
   candyImageContainer: {
     flex: 1,

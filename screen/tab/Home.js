@@ -6,11 +6,48 @@ import {
   ScrollView,
   TouchableOpacity,
   SafeAreaView,
+  Dimensions,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useAppContext} from '../../store/context';
 
 const egg = require('../../assets/image/vector/empty.png');
+
+const SweetCard = ({ sweet }) => {
+  const candyImages = [
+    require('../../assets/image/candy/candy1.png'),
+    require('../../assets/image/candy/candy2.png'),
+    require('../../assets/image/candy/candy3.png'),
+    require('../../assets/image/candy/candy4.png'),
+    require('../../assets/image/candy/candy5.png'),
+  ];
+
+  return (
+    <View style={styles.cardContainer}>
+      <View style={[styles.cardContent, { borderColor: sweet.packageColor }]}>
+        <View style={[styles.imageContainer, { backgroundColor: sweet.candyColor }]}>
+          <Image
+            source={require('../../assets/image/icons/lollipop.png')}
+            style={styles.candyIcon}
+            // resizeMode="contain"
+          />
+        </View>
+        <Image
+          source={candyImages[sweet.candyIndex]}
+          style={[styles.candyImage, { tintColor: sweet.packageColor }]}
+          resizeMode="contain"
+        />
+        <Text style={styles.candyName} numberOfLines={1}>
+          {sweet.name}
+        </Text>
+        <Text style={styles.candyTaste} numberOfLines={1}>
+          {sweet.taste}
+        </Text>
+      </View>
+    </View>
+  );
+};
 
 const EmptyState = () => (
   <View style={styles.emptyContainer}>
@@ -23,23 +60,8 @@ const EmptyState = () => (
 );
 
 const Home = ({navigation}) => {
-  const [sweets, setSweets] = useState([]);
-
-  // Load sweets from AsyncStorage
-  useEffect(() => {
-    loadSweets();
-  }, []);
-
-  const loadSweets = async () => {
-    try {
-      const storedSweets = await AsyncStorage.getItem('@user_sweets');
-      if (storedSweets) {
-        setSweets(JSON.parse(storedSweets));
-      }
-    } catch (error) {
-      console.error('Error loading sweets:', error);
-    }
-  };
+  // const [sweets, setSweets] = useState([]);
+  const {sweets} = useAppContext();
 
   return (
     <View style={styles.container}>
@@ -51,13 +73,9 @@ const Home = ({navigation}) => {
         {sweets.length === 0 ? (
           <EmptyState />
         ) : (
-          // Render sweets list here when implemented
-          <View style={styles.sweetsContainer}>
-            {sweets.map(sweet => (
-              // Sweet item component will go here
-              <View key={sweet.id}>
-                <Text>{sweet.name}</Text>
-              </View>
+          <View style={styles.grid}>
+            {sweets.map((sweet) => (
+              <SweetCard key={sweet.id} sweet={sweet} />
             ))}
           </View>
         )}
@@ -101,23 +119,82 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
+    paddingHorizontal: 20,
+    paddingBottom: 100, // Space for button
+  },
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  cardContainer: {
+    width: '48%',
+    marginBottom: 15,
+  },
+  cardContent: {
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    // padding: 10,
+    borderWidth: 2,
+    borderColor: '#FDACFD',
+    // alignItems: 'center',
+    // Shadow
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
+    paddingVertical: 15,
+  },
+  imageContainer: {
+    width: 120,
+    height: 120,
+    borderRadius: 30,
+    backgroundColor: '#FDACFD',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    marginBottom: 15,
+    marginHorizontal:10
+  },
+  candyIcon: {
+    width: '100%',
+    height: '100%',
+    // tintColor: '#fff',
+  },
+  candyImage: {
+    width: 40,
+    height: 40,
+    position: 'absolute',
+    top: 10,
+    right: 10,
+  },
+  candyName: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 4,
+    textAlign: 'center',
+  },
+  candyTaste: {
+    fontSize: 14,
+    color: '#666',
+    textAlign: 'center',
   },
   emptyContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 100, // To account for the button space
+    paddingBottom: 100,
   },
   emptyImage: {
     width: 250,
     height: 250,
   },
-  sweetsContainer: {
-    padding: 20,
-  },
   buttonContainer: {
     position: 'absolute',
-    bottom: 90, // Adjust based on your tab bar height
+    bottom: 90,
     left: 20,
     right: 20,
   },
@@ -127,9 +204,9 @@ const styles = StyleSheet.create({
     height: 56,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     paddingHorizontal: 20,
-    // Add shadow
+    // Shadow
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -145,14 +222,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginRight: 10,
   },
-  arrowIcon: {
-    width: 24,
-    height: 16,
-    tintColor: '#FDACFDff',
-  },
   arrowContainer: {
     backgroundColor: '#fff',
     borderRadius: 100,
     padding: 14,
+  },
+  arrowIcon: {
+    width: 24,
+    height: 16,
+    tintColor: '#FDACFD',
   },
 });
