@@ -7,7 +7,8 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 const CreateSweet = ({navigation}) => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -15,6 +16,9 @@ const CreateSweet = ({navigation}) => {
     name: '',
     description: '',
     image: null,
+    shape: '',
+    candyColor: '',
+    packageColor: '',
   });
 
   const handleNext = () => {
@@ -26,19 +30,33 @@ const CreateSweet = ({navigation}) => {
     }
   };
 
-  const handleImagePick = () => {
-    // Image picker logic will be added later
+  const handleImagePick = async () => {
+    const result = await launchImageLibrary({
+      mediaType: 'photo',
+      quality: 1,
+    });
+
+    if (!result.didCancel && result.assets?.[0]) {
+      setFormData({...formData, image: result.assets[0].uri});
+    }
   };
+
+  const isStep1Valid =
+    formData.name.trim() !== '' && formData.description.trim() !== '';
+
+  const shapes = ['Round', 'Starry', 'Heart', 'Square', 'Triangular'];
 
   const renderStep1 = () => (
     <View style={styles.formContainer}>
-      <TouchableOpacity style={styles.imagePickerContainer} onPress={handleImagePick}>
+      <TouchableOpacity
+        style={styles.imagePickerContainer}
+        onPress={handleImagePick}>
         {formData.image ? (
-          <Image source={{ uri: formData.image }} style={styles.selectedImage} />
+          <Image source={{uri: formData.image}} style={styles.selectedImage} />
         ) : (
           <View style={styles.imagePlaceholder}>
-            <Image 
-              source={require('../../assets/image/icons/image.png')} 
+            <Image
+              source={require('../../assets/image/icons/image.png')}
               style={styles.imageIcon}
             />
           </View>
@@ -49,7 +67,7 @@ const CreateSweet = ({navigation}) => {
       <TextInput
         style={styles.input}
         value={formData.name}
-        onChangeText={(text) => setFormData({...formData, name: text})}
+        onChangeText={text => setFormData({...formData, name: text})}
         placeholder="Name of the candy"
         placeholderTextColor="#999"
       />
@@ -58,7 +76,7 @@ const CreateSweet = ({navigation}) => {
       <TextInput
         style={[styles.input, styles.textArea]}
         value={formData.description}
-        onChangeText={(text) => setFormData({...formData, description: text})}
+        onChangeText={text => setFormData({...formData, description: text})}
         placeholder="Enter the text"
         placeholderTextColor="#999"
         multiline
@@ -67,26 +85,80 @@ const CreateSweet = ({navigation}) => {
     </View>
   );
 
-  const totalSteps = 3; // Will be used for progress indication
+  const renderStep2 = () => (
+    <View style={styles.formContainer}>
+      <Text style={styles.label}>The shape of the candies</Text>
+      {shapes.map(shape => (
+        <TouchableOpacity
+          key={shape}
+          style={[
+            styles.shapeButton,
+            formData.shape === shape && styles.selectedShape,
+          ]}
+          onPress={() => setFormData({...formData, shape})}>
+          <Text
+            style={[
+              styles.shapeText,
+              formData.shape === shape && styles.selectedShapeText,
+            ]}>
+            {shape}
+          </Text>
+        </TouchableOpacity>
+      ))}
+
+      <TouchableOpacity
+        style={styles.colorButton}
+        onPress={() => {
+          /* Color picker logic */
+        }}>
+        <Text style={styles.colorButtonText}>Color of the candy</Text>
+        <Image
+          source={require('../../assets/image/icons/arrow.png')}
+          style={styles.arrowIcon}
+        />
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.colorButton}
+        onPress={() => {
+          /* Package color picker logic */
+        }}>
+        <Text style={styles.colorButtonText}>Package color</Text>
+        <Image
+          source={require('../../assets/image/icons/arrow.png')}
+          style={styles.arrowIcon}
+        />
+      </TouchableOpacity>
+    </View>
+  );
+
+  const totalSteps = 2;
 
   return (
     <View style={styles.container}>
-      {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
             source={require('../../assets/image/icons/back.png')}
-            style={[styles.headerIcon, { tintColor: '#FDACFD' }]}
+            style={[styles.headerIcon, {tintColor: '#FDACFD'}]}
           />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Creating candies</Text>
-        <TouchableOpacity onPress={handleNext}>
-          <Text style={styles.nextButton}>Next</Text>
+        <TouchableOpacity
+          onPress={handleNext}
+          disabled={currentStep === 1 && !isStep1Valid}>
+          <Text
+            style={[
+              styles.nextButton,
+              currentStep === 1 && !isStep1Valid && styles.nextButtonDisabled,
+            ]}>
+            Next
+          </Text>
         </TouchableOpacity>
       </View>
 
       <ScrollView style={styles.content}>
-        {renderStep1()}
+        {currentStep === 1 ? renderStep1() : renderStep2()}
       </ScrollView>
     </View>
   );
@@ -159,8 +231,8 @@ const styles = StyleSheet.create({
     // tintColor: '#999',
   },
   selectedImage: {
-    width: '100%',
-    height: '100%',
+    width: 300,
+    height: 250,
     borderRadius: 75,
   },
   label: {
@@ -178,5 +250,45 @@ const styles = StyleSheet.create({
   textArea: {
     height: 120,
     textAlignVertical: 'top',
+  },
+  shapeButton: {
+    backgroundColor: '#F5F5F5',
+    borderRadius: 50,
+    padding: 15,
+    marginBottom: 10,
+  },
+  selectedShape: {
+    backgroundColor: '#FDACFD20',
+    borderColor: '#FDACFD',
+    borderWidth: 3,
+  },
+  shapeText: {
+    fontSize: 18,
+    color: '#666',
+  },
+  selectedShapeText: {
+    color: '#FDACFD',
+    fontWeight: 'bold',
+  },
+  colorButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#F5F5F5',
+    borderRadius: 15,
+    padding: 15,
+    marginBottom: 10,
+  },
+  colorButtonText: {
+    fontSize: 16,
+    color: '#666',
+  },
+  arrowIcon: {
+    width: 24,
+    height: 24,
+    tintColor: '#FDACFD',
+  },
+  nextButtonDisabled: {
+    opacity: 0.5,
   },
 });
