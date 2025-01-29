@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import {useAppContext} from '../../store/context';
+import LinearLayout from '../../components/layout/LinearLayout';
 
 const EncyclopediaItem = ({item, navigation}) => (
   <TouchableOpacity
@@ -34,22 +35,24 @@ const Encyclopedia = ({navigation}) => {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Encyclopedia</Text>
-      <ScrollView
-        contentContainerStyle={styles.scrollContainer}
-        showsVerticalScrollIndicator={false}>
-        <View style={styles.grid}>
-          {encyclopediaData.map(item => (
-            <EncyclopediaItem
-              key={item.id}
-              item={item}
-              navigation={navigation}
-            />
-          ))}
-        </View>
-      </ScrollView>
-    </View>
+    <LinearLayout>
+      <View style={styles.container}>
+        <Text style={styles.title}>Encyclopedia</Text>
+        <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          showsVerticalScrollIndicator={false}>
+          <View style={styles.grid}>
+            {encyclopediaData.map(item => (
+              <EncyclopediaItem
+                key={item.id}
+                item={item}
+                navigation={navigation}
+              />
+            ))}
+          </View>
+        </ScrollView>
+      </View>
+    </LinearLayout>
   );
 };
 
@@ -58,7 +61,7 @@ export default Encyclopedia;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     padding: 20,
   },
   title: {

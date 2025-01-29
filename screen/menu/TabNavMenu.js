@@ -14,7 +14,7 @@ const TabNavMenu = () => {
           paddingHorizontal: 5,
           paddingTop: 5,
           paddingBottom: 5,
-          backgroundColor: '#FFFFFF',
+          backgroundColor: '#FFE5FF',
         },
         tabBarActiveTintColor: '#FDACFD',
         tabBarInactiveTintColor: '#999999',

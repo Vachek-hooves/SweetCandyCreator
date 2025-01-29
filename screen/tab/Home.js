@@ -11,6 +11,7 @@ import {
 import React, {useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useAppContext} from '../../store/context';
+import LinearLayout from '../../components/layout/LinearLayout';
 
 const egg = require('../../assets/image/vector/empty.png');
 
@@ -67,39 +68,45 @@ const Home = ({navigation}) => {
   const {sweets} = useAppContext();
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Home</Text>
+    <LinearLayout>
+      <View style={styles.container}>
+        <Text style={styles.title}>Home</Text>
 
-      <ScrollView
-        style={styles.content}
-        contentContainerStyle={styles.scrollContent}>
-        {sweets.length === 0 ? (
-          <EmptyState />
-        ) : (
-          <View style={styles.grid}>
-            {sweets.map(sweet => (
-              <SweetCard key={sweet.id} sweet={sweet} navigation={navigation} />
-            ))}
-          </View>
-        )}
-      </ScrollView>
+        <ScrollView
+          style={styles.content}
+          contentContainerStyle={styles.scrollContent}>
+          {sweets.length === 0 ? (
+            <EmptyState />
+          ) : (
+            <View style={styles.grid}>
+              {sweets.map(sweet => (
+                <SweetCard
+                  key={sweet.id}
+                  sweet={sweet}
+                  navigation={navigation}
+                />
+              ))}
+            </View>
+          )}
+        </ScrollView>
 
-      {/* Create Sweet Button */}
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.addButton}
-          onPress={() => navigation.navigate('CreateSweet')}>
-          <View></View>
-          <Text style={styles.buttonText}>ADD</Text>
-          <View style={styles.arrowContainer}>
-            <Image
-              source={require('../../assets/image/icons/arrow.png')}
-              style={styles.arrowIcon}
-            />
-          </View>
-        </TouchableOpacity>
+        {/* Create Sweet Button */}
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => navigation.navigate('CreateSweet')}>
+            <View></View>
+            <Text style={styles.buttonText}>ADD</Text>
+            <View style={styles.arrowContainer}>
+              <Image
+                source={require('../../assets/image/icons/arrow.png')}
+                style={styles.arrowIcon}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </LinearLayout>
   );
 };
 
@@ -108,7 +115,7 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
   },
   title: {
     fontSize: 24,
