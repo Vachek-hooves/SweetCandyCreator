@@ -92,11 +92,11 @@ const styles = StyleSheet.create({
   activeTabItem: {
     backgroundColor: '#FDACFD',
     paddingHorizontal: 16,
-    minWidth: 120,
+    minWidth: 140,
   },
   icon: {
-    width: 24,
-    height: 24,
+    width: 32,
+    height: 32,
   },
   activeLabel: {
     color: '#fff',
