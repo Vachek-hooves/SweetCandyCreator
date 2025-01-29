@@ -132,7 +132,7 @@ const TabNavMenu = () => {
 
           switch (route.name) {
             case 'Candy':
-              iconSource = require('../../assets/image/tabbar/Home.png');
+              iconSource = require('../../assets/image/tabbar/Candy.png');
               break;
             case 'Cyclopedia':
               iconSource = require('../../assets/image/tabbar/Encyclopedia.png');
