@@ -7,12 +7,15 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
+import LinearGradient from 'react-native-linear-gradient';
 
 const EncyclopediaItemDetails = ({route, navigation}) => {
   const {item} = route.params;
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={['#FFF','#FFE5FF','#FDACFD', '#FFE5FF', ]}
+      style={styles.container}>
       {/* Header with back button */}
       <View style={styles.header}>
         <TouchableOpacity
@@ -29,24 +32,36 @@ const EncyclopediaItemDetails = ({route, navigation}) => {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContainer}>
-        {/* Main Image */}
+        {/* Main Image with Gradient Overlay */}
         <View style={styles.imageContainer}>
           <Image source={item.image} style={styles.image} resizeMode="cover" />
+          <LinearGradient
+            colors={['transparent', '#FDACFD20']}
+            style={styles.imageGradient}
+          />
         </View>
 
         {/* Origin Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Origin</Text>
-          <Text style={styles.sectionText}>{item.origin}</Text>
+          <LinearGradient
+            colors={['#FFF', '#FFE5FF']}
+            style={styles.sectionGradient}>
+            <Text style={styles.sectionText}>{item.origin}</Text>
+          </LinearGradient>
         </View>
 
         {/* Features Section */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Features</Text>
-          <Text style={styles.sectionText}>{item.features}</Text>
+          <LinearGradient
+            colors={['#FFF', '#FFE5FF']}
+            style={styles.sectionGradient}>
+            <Text style={styles.sectionText}>{item.features}</Text>
+          </LinearGradient>
         </View>
       </ScrollView>
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -55,7 +70,6 @@ export default EncyclopediaItemDetails;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   header: {
     flexDirection: 'row',
@@ -76,6 +90,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginLeft: 15,
+    color: '#333',
   },
   scrollContainer: {
     paddingBottom: 30,
@@ -92,6 +107,13 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  imageGradient: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: '50%',
+  },
   section: {
     paddingHorizontal: 20,
     marginBottom: 20,
@@ -102,12 +124,7 @@ const styles = StyleSheet.create({
     color: '#666',
     marginBottom: 10,
   },
-  sectionText: {
-    fontSize: 18,
-    lineHeight: 24,
-    color: '#333',
-    backgroundColor: '#fff',
-    padding: 15,
+  sectionGradient: {
     borderRadius: 15,
     // Add shadow
     shadowColor: '#000',
@@ -118,6 +135,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 3,
+  },
+  sectionText: {
+    fontSize: 18,
+    lineHeight: 24,
+    color: '#333',
+    padding: 15,
     fontWeight: '500',
     letterSpacing: 0.5,
     textAlign: 'justify',
