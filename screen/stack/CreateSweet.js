@@ -19,6 +19,7 @@ const CreateSweet = ({navigation}) => {
     shape: '',
     candyColor: '',
     packageColor: '',
+    taste: '',
   });
 
   const handleNext = () => {
@@ -45,6 +46,7 @@ const CreateSweet = ({navigation}) => {
     formData.name.trim() !== '' && formData.description.trim() !== '';
 
   const shapes = ['Round', 'Starry', 'Heart', 'Square', 'Triangular'];
+  const tastes = ['Strawberry', 'Vanilla', 'Chocolate', 'Mint', 'Raspberry'];
 
   const renderStep1 = () => (
     <View style={styles.formContainer}>
@@ -85,7 +87,7 @@ const CreateSweet = ({navigation}) => {
     </View>
   );
 
-  const renderStep2 = () => (
+  const renderStep3 = () => (
     <View style={styles.formContainer}>
       <Text style={styles.label}>The shape of the candies</Text>
       {shapes.map(shape => (
@@ -132,7 +134,30 @@ const CreateSweet = ({navigation}) => {
     </View>
   );
 
-  const totalSteps = 2;
+  const renderStep2 = () => (
+    <View style={styles.formContainer}>
+      <Text style={styles.label}>The taste of candy</Text>
+      {tastes.map(tasteOption => (
+        <TouchableOpacity
+          key={tasteOption}
+          style={[
+            styles.tasteButton,
+            formData.taste === tasteOption && styles.selectedTaste,
+          ]}
+          onPress={() => setFormData({...formData, taste: tasteOption})}>
+          <Text
+            style={[
+              styles.tasteText,
+              formData.taste === tasteOption && styles.selectedTasteText,
+            ]}>
+            {tasteOption}
+          </Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
+
+  const totalSteps = 3;
 
   return (
     <View style={styles.container}>
@@ -152,13 +177,17 @@ const CreateSweet = ({navigation}) => {
               styles.nextButton,
               currentStep === 1 && !isStep1Valid && styles.nextButtonDisabled,
             ]}>
-            Next
+            {currentStep === totalSteps ? 'Create' : 'Next'}
           </Text>
         </TouchableOpacity>
       </View>
 
       <ScrollView style={styles.content}>
-        {currentStep === 1 ? renderStep1() : renderStep2()}
+        {currentStep === 1
+          ? renderStep1()
+          : currentStep === 2
+          ? renderStep2()
+          : renderStep3()}
       </ScrollView>
     </View>
   );
@@ -290,5 +319,25 @@ const styles = StyleSheet.create({
   },
   nextButtonDisabled: {
     opacity: 0.5,
+  },
+  tasteButton: {
+    backgroundColor: '#F5F5F5',
+    borderRadius: 15,
+    padding: 15,
+    marginBottom: 10,
+  },
+  selectedTaste: {
+    backgroundColor: '#FDACFD20',
+    borderColor: '#FDACFD',
+    borderWidth: 2,
+  },
+  tasteText: {
+    fontSize: 16,
+    color: '#666',
+    fontWeight: '500',
+  },
+  selectedTasteText: {
+    color: '#FDACFD',
+    fontWeight: 'bold',
   },
 });
