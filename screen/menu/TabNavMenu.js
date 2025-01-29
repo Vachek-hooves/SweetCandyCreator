@@ -10,7 +10,7 @@ const TabNavMenu = () => {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          height: 60,
+          height: 90,
           paddingHorizontal: 5,
           paddingTop: 5,
           paddingBottom: 5,
