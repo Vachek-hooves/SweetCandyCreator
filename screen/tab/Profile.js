@@ -1,7 +1,69 @@
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import React from 'react';
+import {StyleSheet, Text, View, Image, TouchableOpacity, Alert} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 const Profile = () => {
+  const [userName, setUserName] = useState('Alexandra Mironova');
+  const [userImage, setUserImage] = useState(null);
+
+  // Load user data when component mounts
+  useEffect(() => {
+    loadUserData();
+  }, []);
+
+  // Load user data from AsyncStorage
+  const loadUserData = async () => {
+    try {
+      const storedName = await AsyncStorage.getItem('@user_name');
+      const storedImage = await AsyncStorage.getItem('@user_image');
+      
+      if (storedName) setUserName(storedName);
+      if (storedImage) setUserImage(storedImage);
+    } catch (error) {
+      Alert.alert('Error', 'Failed to load user data');
+    }
+  };
+
+  // Save user data to AsyncStorage
+  const saveUserData = async (name, image) => {
+    try {
+      await AsyncStorage.setItem('@user_name', name);
+      if (image) await AsyncStorage.setItem('@user_image', image);
+      Alert.alert('Success', 'Profile updated successfully');
+    } catch (error) {
+      Alert.alert('Error', 'Failed to save user data');
+    }
+  };
+
+  // Pick image from gallery
+  const pickImage = async () => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: false,
+      maxHeight: 2000,
+      maxWidth: 2000,
+    };
+
+    launchImageLibrary(options, (response) => {
+      if (response.didCancel) {
+        return;
+      } else if (response.error) {
+        Alert.alert('Error', 'ImagePicker Error: ' + response.error);
+      } else {
+        const imageUri = response.assets[0].uri;
+        setUserImage(imageUri);
+        saveUserData(userName, imageUri);
+      }
+    });
+  };
+
+  // Update user name
+  const updateName = async (newName) => {
+    setUserName(newName);
+    await saveUserData(newName, userImage);
+  };
+
   return (
     <View style={styles.container}>
       {/* Profile Header */}
@@ -9,15 +71,36 @@ const Profile = () => {
 
       {/* Profile Card */}
       <View style={styles.profileCard}>
-        <View style={styles.profileImageContainer}>
+        <TouchableOpacity onPress={pickImage}>
           <Image
-            source={require('../../assets/image/profile/defaultProfile.png')}
+            source={
+              userImage
+                ? {uri: userImage}
+                : require('../../assets/image/profile/defaultProfile.png')
+            }
             style={styles.profileImage}
           />
-        </View>
-        <View style={styles.profileInfo}>
-          <Text style={styles.name}>Alexandra Mironova</Text>
-        </View>
+          <Text style={styles.changePhotoText}>Change Photo</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          onPress={() => {
+            Alert.prompt(
+              'Update Name',
+              'Enter your new name',
+              [
+                {text: 'Cancel', style: 'cancel'},
+                {
+                  text: 'Update',
+                  onPress: (newName) => updateName(newName)
+                }
+              ],
+              'plain-text',
+              userName
+            );
+          }}
+        >
+          <Text style={styles.name}>{userName}</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Menu Items */}
@@ -126,5 +209,10 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     // padding: 5,
     // borderRadius: 5,
+  },
+  changePhotoText: {
+    fontSize: 14,
+    color: '#333',
+    marginTop: 5,
   },
 });
