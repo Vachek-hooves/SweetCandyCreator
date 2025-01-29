@@ -9,7 +9,7 @@ workflows:
         distribution_type: app_store
         bundle_identifier: com.sweetcandy.creator
       vars:
-        APP_STORE_APPLE_ID:
+        APP_STORE_APPLE_ID: 6741163981
         BUNDLE_ID: 'com.sweetcandy.creator'
         XCODE_WORKSPACE: 'SweetCandyCreator.xcworkspace'
         CODE_SCHEME: 'SweetCandyCreator'
