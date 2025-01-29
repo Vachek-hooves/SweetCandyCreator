@@ -29,7 +29,7 @@ const AnimatedTabIcon = ({focused, iconSource, label}) => {
         Animated.sequence([
           Animated.delay(50), // Small delay before starting
           Animated.spring(widthAnim, {
-            toValue: 135,
+            toValue: 120,
             friction: 5,
             tension: 40,
             useNativeDriver: false,
@@ -131,7 +131,7 @@ const TabNavMenu = () => {
           let iconSource;
 
           switch (route.name) {
-            case 'Home':
+            case 'Candy':
               iconSource = require('../../assets/image/tabbar/Home.png');
               break;
             case 'Cyclopedia':
@@ -159,9 +159,9 @@ const TabNavMenu = () => {
         },
       })}>
       <Tab.Screen name="Cyclopedia" component={Encyclopedia} />
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Candy" component={Home} />
       <Tab.Screen name="Collections" component={Collections} />
+      <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
 };
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
   },
   activeLabel: {
     color: '#fff',
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '500',
     marginLeft: 8,
     marginTop: 5,

@@ -19,7 +19,7 @@ const EncyclopediaItemDetails = ({route, navigation}) => {
       {/* Header with back button */}
       <View style={styles.header}>
         <TouchableOpacity
-          onPress={() => navigation.goBack()}
+          // onPress={() => navigation.goBack()}
           style={styles.backButton}>
           <Image
             source={require('../../assets/image/icons/back.png')}
@@ -82,8 +82,8 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   backIcon: {
-    width: 24,
-    height: 24,
+    width: 32,
+    height: 32,
     tintColor: '#FDACFD',
   },
   title: {
