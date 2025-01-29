@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View, Image, Animated} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Home, Encyclopedia, Profile} from '../tab';
+import {Home, Encyclopedia, Profile, Collections} from '../tab';
 import React, {useRef, useEffect} from 'react';
 
 const Tab = createBottomTabNavigator();
@@ -29,7 +29,7 @@ const AnimatedTabIcon = ({focused, iconSource, label}) => {
         Animated.sequence([
           Animated.delay(50), // Small delay before starting
           Animated.spring(widthAnim, {
-            toValue: 145,
+            toValue: 135,
             friction: 5,
             tension: 40,
             useNativeDriver: false,
@@ -134,11 +134,14 @@ const TabNavMenu = () => {
             case 'Home':
               iconSource = require('../../assets/image/tabbar/Home.png');
               break;
-            case 'Encyclopedia':
+            case 'Cyclopedia':
               iconSource = require('../../assets/image/tabbar/Encyclopedia.png');
               break;
             case 'Profile':
               iconSource = require('../../assets/image/tabbar/Profile.png');
+              break;
+            case 'Collections':
+              iconSource = require('../../assets/image/tabbar/Collections.png');
               break;
           }
 
@@ -155,9 +158,10 @@ const TabNavMenu = () => {
           padding: 0,
         },
       })}>
-      <Tab.Screen name="Encyclopedia" component={Encyclopedia} />
+      <Tab.Screen name="Cyclopedia" component={Encyclopedia} />
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Collections" component={Collections} />
     </Tab.Navigator>
   );
 };
@@ -182,8 +186,8 @@ const styles = StyleSheet.create({
     minWidth: 140,
   },
   icon: {
-    width: 32,
-    height: 32,
+    width: 28,
+    height: 28,
   },
   activeLabel: {
     color: '#fff',
