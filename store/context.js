@@ -10,8 +10,11 @@ export const AppProvider = ({children}) => {
   const [encyclopediaData, setEncyclopediaData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [sweets, setSweets] = useState([]);
+  const [collections, setCollections] = useState([]);
+
   useEffect(() => {
     loadSweets();
+    loadCollections();
   }, []);
 
   // Load sweets from AsyncStorage
@@ -110,6 +113,46 @@ export const AppProvider = ({children}) => {
     initializeEncyclopedia();
   }, []);
 
+  const loadCollections = async () => {
+    try {
+      const savedCollections = await AsyncStorage.getItem('@collections');
+      if (savedCollections) {
+        setCollections(JSON.parse(savedCollections));
+      }
+    } catch (error) {
+      console.error('Error loading collections:', error);
+    }
+  };
+
+  const saveCollection = async (newCollection) => {
+    try {
+      const updatedCollections = [...collections, {
+        id: Date.now().toString(),
+        ...newCollection,
+        createdAt: new Date().toISOString(),
+      }];
+      
+      await AsyncStorage.setItem('@collections', JSON.stringify(updatedCollections));
+      setCollections(updatedCollections);
+      return true;
+    } catch (error) {
+      console.error('Error saving collection:', error);
+      return false;
+    }
+  };
+
+  const deleteCollection = async (collectionId) => {
+    try {
+      const updatedCollections = collections.filter(c => c.id !== collectionId);
+      await AsyncStorage.setItem('@collections', JSON.stringify(updatedCollections));
+      setCollections(updatedCollections);
+      return true;
+    } catch (error) {
+      console.error('Error deleting collection:', error);
+      return false;
+    }
+  };
+
   const value = {
     encyclopediaData,
     isLoading,
@@ -118,6 +161,9 @@ export const AppProvider = ({children}) => {
     sweets,
     saveSweet,
     deleteSweet,
+    collections,
+    saveCollection,
+    deleteCollection,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

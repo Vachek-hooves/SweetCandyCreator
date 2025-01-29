@@ -6,16 +6,18 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
+  Alert,
 } from 'react-native';
 import React, {useState} from 'react';
 import {launchImageLibrary} from 'react-native-image-picker';
-import { useAppContext } from '../../store/context';
+import {useAppContext} from '../../store/context';
 
 const CreateCollection = ({navigation}) => {
-  const {encyclopediaData} = useAppContext();
+  const {encyclopediaData, saveCollection} = useAppContext();
   const [collectionImage, setCollectionImage] = useState(null);
   const [collectionName, setCollectionName] = useState('');
   const [selectedItems, setSelectedItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleImagePick = async () => {
     const options = {
@@ -40,6 +42,44 @@ const CreateCollection = ({navigation}) => {
       }
       return [...prev, itemId];
     });
+  };
+
+  const handleSave = async () => {
+    if (!collectionName.trim()) {
+      Alert.alert('Error', 'Please enter a collection name');
+      return;
+    }
+
+    if (selectedItems.length === 0) {
+      Alert.alert('Error', 'Please select at least one item');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const newCollection = {
+        name: collectionName,
+        image: collectionImage,
+        items: selectedItems,
+      };
+
+      const success = await saveCollection(newCollection);
+      
+      if (success) {
+        Alert.alert('Success', 'Collection saved successfully', [
+          {
+            text: 'OK',
+            onPress: () => navigation.goBack(),
+          },
+        ]);
+      } else {
+        throw new Error('Failed to save collection');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Failed to save collection. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const renderItemImage = (item) => {
@@ -74,11 +114,14 @@ const CreateCollection = ({navigation}) => {
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Creating collection</Text>
         <TouchableOpacity 
-          onPress={() => {
-            // Handle save collection
-            navigation.goBack();
-          }}>
-          <Text style={styles.nextButton}>Next</Text>
+          onPress={handleSave}
+          disabled={isLoading}>
+          <Text style={[
+            styles.nextButton,
+            isLoading && styles.nextButtonDisabled
+          ]}>
+            {isLoading ? 'Saving...' : 'Next'}
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -173,6 +216,9 @@ const styles = StyleSheet.create({
     color: '#FDACFD',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  nextButtonDisabled: {
+    opacity: 0.5,
   },
   content: {
     flex: 1,

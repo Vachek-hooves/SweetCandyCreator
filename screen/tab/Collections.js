@@ -1,27 +1,55 @@
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity, FlatList} from 'react-native';
 import React from 'react';
+import {useAppContext} from '../../store/context';
 
 const Collections = ({navigation}) => {
+  const {collections} = useAppContext();
+
+  const renderCollection = ({item}) => (
+    <TouchableOpacity 
+      style={styles.collectionCard}
+      onPress={() => navigation.navigate('CollectionDetails', {collection: item})}>
+      <View style={styles.imageWrapper}>
+        <Image
+          source={item.image ? {uri: item.image} : require('../../assets/image/icons/placeholder.png')}
+          style={styles.collectionImage}
+          resizeMode="cover"
+        />
+      </View>
+      <Text style={styles.collectionName}>{item.name}</Text>
+    </TouchableOpacity>
+  );
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Collections</Text>
 
-      <View style={styles.emptyContainer}>
-        <Image
-          source={require('../../assets/image/vector/empty.png')}
-          style={styles.emptyImage}
-          resizeMode="contain"
+      {collections.length === 0 ? (
+        <View style={styles.emptyContainer}>
+          <Image
+            source={require('../../assets/image/vector/empty.png')}
+            style={styles.emptyImage}
+            resizeMode="contain"
+          />
+          <Text style={styles.emptyTitle}>No collections yet</Text>
+          <Text style={styles.emptyText}>
+            Create your first collection of candies
+          </Text>
+        </View>
+      ) : (
+        <FlatList
+          data={collections}
+          renderItem={renderCollection}
+          keyExtractor={item => item.id}
+          contentContainerStyle={styles.collectionsList}
+          numColumns={2}
         />
-        <Text style={styles.emptyTitle}>No collections yet</Text>
-        <Text style={styles.emptyText}>
-          Create your first collection of candies
-        </Text>
-      </View>
+      )}
+
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.addButton}
           onPress={() => navigation.navigate('CreateCollection')}>
-          <View></View>
           <Text style={styles.buttonText}>ADD</Text>
           <View style={styles.arrowContainer}>
             <Image
@@ -110,5 +138,41 @@ const styles = StyleSheet.create({
     width: 24,
     height: 16,
     tintColor: '#FDACFD',
+  },
+  collectionsList: {
+    padding: 15,
+  },
+  collectionCard: {
+    flex: 1,
+    margin: 8,
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 30,
+    padding: 15,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
+  },
+  imageWrapper: {
+    width: '100%',
+    aspectRatio: 1,
+    borderRadius: 25,
+    overflow: 'hidden',
+    marginBottom: 10,
+  },
+  collectionImage: {
+    width: '100%',
+    height: '100%',
+  },
+  collectionName: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333',
+    textAlign: 'center',
   },
 });
