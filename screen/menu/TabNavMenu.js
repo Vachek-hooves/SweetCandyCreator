@@ -32,7 +32,7 @@ const TabNavMenu = () => {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Collections"
         component={Collections}
         options={{
@@ -44,7 +44,7 @@ const TabNavMenu = () => {
             />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Encyclopedia"
         component={Encyclopedia}
@@ -79,7 +79,8 @@ export default TabNavMenu;
 
 const styles = StyleSheet.create({
   icon: {
-    width: 24,
-    height: 24,
+    width: 34,
+    height: 34,
+    marginBottom: 10,
   },
 });
