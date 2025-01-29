@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 8,
     borderRadius: 25,
-    minWidth: 45,
-    height: 45,
+    minWidth: 55,
+    height: 50,
     backgroundColor: '#F0F0F0',
     marginTop:30
   },
@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
   icon: {
     width: 32,
     height: 32,
+    
   },
   activeLabel: {
     color: '#fff',
