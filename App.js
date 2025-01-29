@@ -7,6 +7,7 @@ import TabNavMenu from './screen/menu/TabNavMenu';
 import {AppProvider} from './store/context';
 import EncyclopediaItemDetails from './screen/stack/EncyclopediaItemDetails';
 import CandyDetails from './screen/stack/CandyDetails';
+import CreateCollection from './screen/stack/CreateCollection';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           />
           <Stack.Screen name="CreateSweet" component={CreateSweet} />
           <Stack.Screen name="CandyDetails" component={CandyDetails} />
+          <Stack.Screen name="CreateCollection" component={CreateCollection} />
         </Stack.Navigator>
       </NavigationContainer>
     </AppProvider>
