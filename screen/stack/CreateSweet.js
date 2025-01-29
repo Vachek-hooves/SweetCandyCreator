@@ -31,6 +31,12 @@ const CreateSweet = ({navigation}) => {
     }
   };
 
+  const handlePrev = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
   const handleImagePick = async () => {
     const result = await launchImageLibrary({
       mediaType: 'photo',
@@ -47,6 +53,25 @@ const CreateSweet = ({navigation}) => {
 
   const shapes = ['Round', 'Starry', 'Heart', 'Square', 'Triangular'];
   const tastes = ['Strawberry', 'Vanilla', 'Chocolate', 'Mint', 'Raspberry'];
+
+  const renderHeaderLeft = () => {
+    if (currentStep === 1) {
+      return (
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Image
+            source={require('../../assets/image/icons/back.png')}
+            style={[styles.headerIcon, { tintColor: '#FDACFD' }]}
+          />
+        </TouchableOpacity>
+      );
+    } else {
+      return (
+        <TouchableOpacity onPress={handlePrev}>
+          <Text style={styles.prevButton}>Prev</Text>
+        </TouchableOpacity>
+      );
+    }
+  };
 
   const renderStep1 = () => (
     <View style={styles.formContainer}>
@@ -162,21 +187,16 @@ const CreateSweet = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image
-            source={require('../../assets/image/icons/back.png')}
-            style={[styles.headerIcon, {tintColor: '#FDACFD'}]}
-          />
-        </TouchableOpacity>
+        {renderHeaderLeft()}
         <Text style={styles.headerTitle}>Creating candies</Text>
-        <TouchableOpacity
+        <TouchableOpacity 
           onPress={handleNext}
-          disabled={currentStep === 1 && !isStep1Valid}>
-          <Text
-            style={[
-              styles.nextButton,
-              currentStep === 1 && !isStep1Valid && styles.nextButtonDisabled,
-            ]}>
+          disabled={currentStep === 1 && !isStep1Valid}
+        >
+          <Text style={[
+            styles.nextButton,
+            (currentStep === 1 && !isStep1Valid) && styles.nextButtonDisabled
+          ]}>
             {currentStep === totalSteps ? 'Create' : 'Next'}
           </Text>
         </TouchableOpacity>
@@ -283,8 +303,16 @@ const styles = StyleSheet.create({
   shapeButton: {
     backgroundColor: '#F5F5F5',
     borderRadius: 50,
-    padding: 15,
-    marginBottom: 10,
+    padding: 20,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 3,
+    elevation: 3,
   },
   selectedShape: {
     backgroundColor: '#FDACFD20',
@@ -309,8 +337,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   colorButtonText: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#666',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 3,
   },
   arrowIcon: {
     width: 24,
@@ -323,8 +358,16 @@ const styles = StyleSheet.create({
   tasteButton: {
     backgroundColor: '#F5F5F5',
     borderRadius: 50,
-    padding: 15,
-    marginBottom: 10,
+    padding: 20,
+    marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 3,
+    elevation: 3,
   },
   selectedTaste: {
     backgroundColor: '#FDACFD20',
@@ -338,6 +381,11 @@ const styles = StyleSheet.create({
   },
   selectedTasteText: {
     color: '#FDACFD',
+    fontWeight: 'bold',
+  },
+  prevButton: {
+    color: '#FDACFD',
+    fontSize: 18,
     fontWeight: 'bold',
   },
 });
