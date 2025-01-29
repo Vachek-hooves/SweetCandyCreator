@@ -46,7 +46,7 @@ const ProfileCard = ({userName, userImage, onImagePress, onDeletePress}) => (
             source={
               userImage
                 ? {uri: userImage}
-                : require('../../assets/image/profile/defaultProfile.png')
+                : require('../../assets/image/profile/defaultProfile2.png')
             }
             style={styles.profileImage}
           />

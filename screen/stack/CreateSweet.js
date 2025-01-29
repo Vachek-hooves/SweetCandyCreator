@@ -14,7 +14,7 @@ import React, {useState} from 'react';
 import {launchImageLibrary} from 'react-native-image-picker';
 import ColorPicker from 'react-native-wheel-color-picker';
 import {useAppContext} from '../../store/context';
-
+import LinearGradient from 'react-native-linear-gradient';
 const CreateSweet = ({navigation}) => {
   const {saveSweet, sweets} = useAppContext();
   const [currentStep, setCurrentStep] = useState(1);
@@ -97,7 +97,7 @@ const CreateSweet = ({navigation}) => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
             source={require('../../assets/image/icons/back.png')}
-            style={[styles.headerIcon, {tintColor: '#FDACFD'}]}
+            style={[styles.headerIcon, {tintColor: '#FFF'}]}
           />
         </TouchableOpacity>
       );
@@ -303,9 +303,12 @@ const CreateSweet = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        {renderHeaderLeft()}
+    <LinearGradient   
+      colors={['#FDACFD', '#FFFFFF']}
+      style={styles.container}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          {renderHeaderLeft()}
         <Text style={styles.headerTitle}>Creating candies</Text>
         <TouchableOpacity
           onPress={currentStep === totalSteps ? handleSubmit : handleNext}
@@ -370,6 +373,7 @@ const CreateSweet = ({navigation}) => {
         </View>
       </Modal>
     </View>
+    </LinearGradient>
   );
 };
 
@@ -378,7 +382,7 @@ export default CreateSweet;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
   },
   header: {
     flexDirection: 'row',
@@ -389,16 +393,16 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   headerIcon: {
-    width: 24,
-    height: 24,
+    width: 28,
+    height: 28,
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: 'bold',
   },
   nextButton: {
-    color: '#FDACFD',
-    fontSize: 18,
+    color: '#FFFFFF',
+    fontSize: 22,
     fontWeight: 'bold',
   },
   content: {
@@ -544,8 +548,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   prevButton: {
-    color: '#FDACFD',
-    fontSize: 18,
+    color: '#FFF',
+    fontSize: 22,
     fontWeight: 'bold',
   },
   modalOverlay: {

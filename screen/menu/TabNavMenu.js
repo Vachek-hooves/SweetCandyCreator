@@ -33,7 +33,7 @@ const AnimatedTabIcon = ({focused, iconSource, label}) => {
             friction: 5,
             tension: 40,
             useNativeDriver: false,
-          })
+          }),
         ]).start();
 
         // Scale and opacity animations (native)
@@ -59,7 +59,7 @@ const AnimatedTabIcon = ({focused, iconSource, label}) => {
             friction: 5,
             tension: 40,
             useNativeDriver: false,
-          })
+          }),
         ]).start();
 
         // Scale and opacity animations (native)
@@ -94,15 +94,12 @@ const AnimatedTabIcon = ({focused, iconSource, label}) => {
       <Animated.View style={{transform: [{scale: scaleAnim}]}}>
         <Image
           source={iconSource}
-          style={[
-            styles.icon,
-            {tintColor: focused ? '#fff' : '#999999'},
-          ]}
+          style={[styles.icon, {tintColor: focused ? '#fff' : '#999999'}]}
           resizeMode="contain"
         />
       </Animated.View>
       {focused && (
-        <Animated.Text 
+        <Animated.Text
           style={[
             styles.activeLabel,
             {
@@ -127,7 +124,7 @@ const TabNavMenu = () => {
           height: 90,
           paddingHorizontal: 10,
           paddingVertical: 20,
-          backgroundColor: '#fff',
+          backgroundColor: '#FFFFFF',
           borderTopWidth: 0,
         },
         tabBarIcon: ({focused}) => {
@@ -158,18 +155,9 @@ const TabNavMenu = () => {
           padding: 0,
         },
       })}>
-      <Tab.Screen
-        name="Home"
-        component={Home}
-      />
-      <Tab.Screen
-        name="Encyclopedia"
-        component={Encyclopedia}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-      />
+      <Tab.Screen name="Encyclopedia" component={Encyclopedia} />
+      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Profile" component={Profile} />
     </Tab.Navigator>
   );
 };
@@ -185,8 +173,8 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     minWidth: 55,
     height: 50,
-    backgroundColor: '#F0F0F0',
-    marginTop: 30
+    backgroundColor: 'gray',
+    marginTop: 30,
   },
   activeTabItem: {
     backgroundColor: '#FDACFD',
