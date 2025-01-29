@@ -1,18 +1,27 @@
-import {StyleSheet, Text, View, Image, TouchableOpacity, Alert, Modal, TextInput} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Alert,
+  Modal,
+  TextInput,
+} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {launchImageLibrary} from 'react-native-image-picker';
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const EmptyProfile = ({ onCreatePress }) => (
+const EmptyProfile = ({onCreatePress}) => (
   <View style={styles.profileCardContainer}>
     <View style={styles.profileCard}>
       <View style={styles.imageContainer}>
         <TouchableOpacity onPress={onCreatePress}>
           <View style={styles.emptyProfileImage}>
-            <Image 
-              source={require('../../assets/image/icons/add.png')} 
-              style={styles.addIcon} 
+            <Image
+              source={require('../../assets/image/icons/add.png')}
+              style={styles.addIcon}
             />
           </View>
         </TouchableOpacity>
@@ -24,29 +33,36 @@ const EmptyProfile = ({ onCreatePress }) => (
   </View>
 );
 
-const ProfileCard = ({ userName, userImage, onImagePress, onDeletePress }) => (
+const ProfileCard = ({userName, userImage, onImagePress, onDeletePress}) => (
   <View style={styles.profileCardContainer}>
     <View style={styles.profileCard}>
       <View style={styles.imageContainer}>
         <TouchableOpacity onPress={onImagePress}>
           <Image
-            source={userImage ? {uri: userImage} : require('../../assets/image/profile/defaultProfile.png')}
+            source={
+              userImage
+                ? {uri: userImage}
+                : require('../../assets/image/profile/defaultProfile.png')
+            }
             style={styles.profileImage}
           />
           <View style={styles.cameraIconContainer}>
             {/* <Icon name="camera" size={20} color="#fff" /> */}
-            <Image source={require('../../assets/image/icons/edit.png')} style={styles.cameraIcon} />
+            <Image
+              source={require('../../assets/image/icons/edit.png')}
+              style={styles.cameraIcon}
+            />
           </View>
         </TouchableOpacity>
       </View>
       <Text style={styles.name}>{userName}</Text>
-      
-      <TouchableOpacity 
-        style={styles.deleteButton} 
-        onPress={onDeletePress}
-      >
+
+      <TouchableOpacity style={styles.deleteButton} onPress={onDeletePress}>
         {/* <Icon name="delete" size={24} color="#FF4444" /> */}
-        <Image source={require('../../assets/image/icons/delete.png')} style={styles.deleteIcon} />
+        <Image
+          source={require('../../assets/image/icons/delete.png')}
+          style={styles.deleteIcon}
+        />
       </TouchableOpacity>
     </View>
   </View>
@@ -68,7 +84,7 @@ const Profile = () => {
     try {
       const storedName = await AsyncStorage.getItem('@user_name');
       const storedImage = await AsyncStorage.getItem('@user_image');
-      
+
       if (storedName) setUserName(storedName);
       if (storedImage) setUserImage(storedImage);
     } catch (error) {
@@ -96,7 +112,7 @@ const Profile = () => {
       maxWidth: 2000,
     };
 
-    launchImageLibrary(options, (response) => {
+    launchImageLibrary(options, response => {
       if (response.didCancel) {
         return;
       } else if (response.error) {
@@ -110,7 +126,7 @@ const Profile = () => {
   };
 
   // Update user name
-  const updateName = async (newName) => {
+  const updateName = async newName => {
     setUserName(newName);
     await saveUserData(newName, userImage);
   };
@@ -136,7 +152,7 @@ const Profile = () => {
           },
           style: 'destructive',
         },
-      ]
+      ],
     );
   };
 
@@ -157,16 +173,12 @@ const Profile = () => {
 
   return (
     <View style={styles.container}>
-      <Modal
-        visible={showNameInput}
-        transparent
-        animationType="fade"
-      >
+      <Modal visible={showNameInput} transparent animationType="fade">
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Create Profile</Text>
             <Text style={styles.modalSubtitle}>Please enter your name</Text>
-            
+
             <TextInput
               style={styles.input}
               value={inputName}
@@ -176,21 +188,21 @@ const Profile = () => {
             />
 
             <View style={styles.modalButtons}>
-              <TouchableOpacity 
-                style={styles.modalButton} 
+              <TouchableOpacity
+                style={styles.modalButton}
                 onPress={() => {
                   setShowNameInput(false);
                   setInputName('');
-                }}
-              >
+                }}>
                 <Text style={styles.buttonText}>Cancel</Text>
               </TouchableOpacity>
-              
-              <TouchableOpacity 
+
+              <TouchableOpacity
                 style={[styles.modalButton, styles.createButton]}
-                onPress={handleCreateProfile}
-              >
-                <Text style={[styles.buttonText, styles.createButtonText]}>Create</Text>
+                onPress={handleCreateProfile}>
+                <Text style={[styles.buttonText, styles.createButtonText]}>
+                  Create
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -198,9 +210,9 @@ const Profile = () => {
       </Modal>
 
       <Text style={styles.title}>Profile</Text>
-      
+
       {userName ? (
-        <ProfileCard 
+        <ProfileCard
           userName={userName}
           userImage={userImage}
           onImagePress={pickImage}
