@@ -1,8 +1,8 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
 const Stack = createNativeStackNavigator();
-import {Welcome} from './screen/stack';
+
+import {CreateSweet, Welcome} from './screen/stack';
 import TabNavMenu from './screen/menu/TabNavMenu';
 import {AppProvider} from './store/context';
 import EncyclopediaItemDetails from './screen/stack/EncyclopediaItemDetails';
@@ -23,6 +23,7 @@ function App() {
             name="EncyclopediaItemDetails"
             component={EncyclopediaItemDetails}
           />
+          <Stack.Screen name="CreateSweet" component={CreateSweet} />
         </Stack.Navigator>
       </NavigationContainer>
     </AppProvider>

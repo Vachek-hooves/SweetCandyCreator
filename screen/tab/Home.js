@@ -1,14 +1,28 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  SafeAreaView,
+} from 'react-native';
 
-const Home = () => {
+const egg = require('../../assets/image/vector/empty.png');
+
+const Home = ({navigation}) => {
   return (
     <View>
-      <Text>Home</Text>
+      <SafeAreaView>
+        <Text>Home</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('CreateSweet')}>
+          <Text>Create sweet</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
     </View>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});

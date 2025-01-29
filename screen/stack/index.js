@@ -1,3 +1,5 @@
 import Welcome from './Welcome';
+import EncyclopediaItemDetails from './EncyclopediaItemDetails';
+import CreateSweet from './CreateSweet';
 
-export {Welcome};
+export {Welcome, CreateSweet, EncyclopediaItemDetails};
