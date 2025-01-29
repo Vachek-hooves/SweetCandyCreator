@@ -1,8 +1,28 @@
-import {StyleSheet, Text, View, Image, TouchableOpacity, Alert} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity, Alert, Modal, TextInput} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {launchImageLibrary} from 'react-native-image-picker';
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+const EmptyProfile = ({ onCreatePress }) => (
+  <View style={styles.profileCardContainer}>
+    <View style={styles.profileCard}>
+      <View style={styles.imageContainer}>
+        <TouchableOpacity onPress={onCreatePress}>
+          <View style={styles.emptyProfileImage}>
+            <Image 
+              source={require('../../assets/image/icons/add.png')} 
+              style={styles.addIcon} 
+            />
+          </View>
+        </TouchableOpacity>
+      </View>
+      <TouchableOpacity onPress={onCreatePress}>
+        <Text style={styles.createProfileText}>Create Profile</Text>
+      </TouchableOpacity>
+    </View>
+  </View>
+);
 
 const ProfileCard = ({ userName, userImage, onImagePress, onDeletePress }) => (
   <View style={styles.profileCardContainer}>
@@ -20,7 +40,7 @@ const ProfileCard = ({ userName, userImage, onImagePress, onDeletePress }) => (
         </TouchableOpacity>
       </View>
       <Text style={styles.name}>{userName}</Text>
-      <Text style={styles.email}>alexandra.mironova-7902@yopmail.com</Text>
+      
       <TouchableOpacity 
         style={styles.deleteButton} 
         onPress={onDeletePress}
@@ -33,8 +53,10 @@ const ProfileCard = ({ userName, userImage, onImagePress, onDeletePress }) => (
 );
 
 const Profile = () => {
-  const [userName, setUserName] = useState('Alexandra Mironova');
+  const [userName, setUserName] = useState('');
   const [userImage, setUserImage] = useState(null);
+  const [showNameInput, setShowNameInput] = useState(false);
+  const [inputName, setInputName] = useState('');
 
   // Load user data when component mounts
   useEffect(() => {
@@ -118,16 +140,75 @@ const Profile = () => {
     );
   };
 
+  const handleCreateProfile = async () => {
+    if (!inputName?.trim()) {
+      Alert.alert('Error', 'Name cannot be empty');
+      return;
+    }
+    try {
+      await saveUserData(inputName.trim(), null);
+      setUserName(inputName.trim());
+      setShowNameInput(false);
+      setInputName('');
+    } catch (error) {
+      Alert.alert('Error', 'Failed to create profile');
+    }
+  };
+
   return (
     <View style={styles.container}>
+      <Modal
+        visible={showNameInput}
+        transparent
+        animationType="fade"
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Create Profile</Text>
+            <Text style={styles.modalSubtitle}>Please enter your name</Text>
+            
+            <TextInput
+              style={styles.input}
+              value={inputName}
+              onChangeText={setInputName}
+              placeholder="Enter your name"
+              autoFocus
+            />
+
+            <View style={styles.modalButtons}>
+              <TouchableOpacity 
+                style={styles.modalButton} 
+                onPress={() => {
+                  setShowNameInput(false);
+                  setInputName('');
+                }}
+              >
+                <Text style={styles.buttonText}>Cancel</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity 
+                style={[styles.modalButton, styles.createButton]}
+                onPress={handleCreateProfile}
+              >
+                <Text style={[styles.buttonText, styles.createButtonText]}>Create</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
       <Text style={styles.title}>Profile</Text>
       
-      <ProfileCard 
-        userName={userName}
-        userImage={userImage}
-        onImagePress={pickImage}
-        onDeletePress={handleDeleteProfile}
-      />
+      {userName ? (
+        <ProfileCard 
+          userName={userName}
+          userImage={userImage}
+          onImagePress={pickImage}
+          onDeletePress={handleDeleteProfile}
+        />
+      ) : (
+        <EmptyProfile onCreatePress={() => setShowNameInput(true)} />
+      )}
 
       {/* Menu Items */}
       <TouchableOpacity style={styles.menuItem}>
@@ -266,5 +347,76 @@ const styles = StyleSheet.create({
     height: 36,
     tintColor: '#00F4F7',
     // padding: 15,
+  },
+  emptyProfileImage: {
+    width: 120,
+    height: 120,
+    borderRadius: 40,
+    backgroundColor: '#FFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 3,
+    borderColor: '#fff',
+  },
+  addIcon: {
+    width: 40,
+    height: 40,
+    tintColor: '#FDACFD',
+  },
+  createProfileText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#FFF',
+    marginTop: 10,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 20,
+    width: '80%',
+    alignItems: 'center',
+  },
+  modalTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  modalSubtitle: {
+    fontSize: 16,
+    marginBottom: 20,
+  },
+  input: {
+    width: '100%',
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 10,
+    padding: 10,
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  modalButton: {
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: '#FFB6F3',
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  createButton: {
+    backgroundColor: '#FDACFD',
+  },
+  createButtonText: {
+    color: '#fff',
   },
 });
