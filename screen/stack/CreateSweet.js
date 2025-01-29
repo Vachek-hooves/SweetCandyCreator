@@ -7,6 +7,7 @@ import {
   TextInput,
   ScrollView,
   Modal,
+  Dimensions,
 } from 'react-native';
 import React, {useState} from 'react';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -23,10 +24,18 @@ const CreateSweet = ({navigation}) => {
     packageColor: '',
     taste: '',
   });
+  console.log(formData);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [colorPickerType, setColorPickerType] = useState(null); // 'candy' or 'package'
   const [tempColor, setTempColor] = useState('#FFFFFF');
-  console.log(tempColor);
+  const [currentCandyIndex, setCurrentCandyIndex] = useState(0);
+  const candyImages = [
+    require('../../assets/image/candy/candy1.png'),
+    require('../../assets/image/candy/candy2.png'),
+    require('../../assets/image/candy/candy3.png'),
+    require('../../assets/image/candy/candy4.png'),
+    require('../../assets/image/candy/candy5.png'),
+  ];
 
   const handleNext = () => {
     if (currentStep < totalSteps) {
@@ -133,6 +142,51 @@ const CreateSweet = ({navigation}) => {
     </View>
   );
 
+  const renderCandyPreview = () => (
+    <View style={styles.candyPreviewContainer}>
+      <TouchableOpacity 
+        style={styles.arrowButton}
+        onPress={() => {
+          if (currentCandyIndex > 0) {
+            setCurrentCandyIndex(currentCandyIndex - 1);
+          }
+        }}
+      >
+        <Image 
+          source={require('../../assets/image/icons/arrow.png')} 
+          style={[styles.arrowIcon, styles.leftArrow]}
+        />
+      </TouchableOpacity>
+
+      <View style={styles.candyImageContainer}>
+        <View style={[styles.candyBackground, { backgroundColor: '#FDACFD20' }]}>
+          <Image
+            source={candyImages[currentCandyIndex]}
+            style={[
+              styles.candyImage,
+              formData.packageColor && { tintColor: formData.packageColor }
+            ]}
+            resizeMode="contain"
+          />
+        </View>
+      </View>
+
+      <TouchableOpacity 
+        style={styles.arrowButton}
+        onPress={() => {
+          if (currentCandyIndex < candyImages.length - 1) {
+            setCurrentCandyIndex(currentCandyIndex + 1);
+          }
+        }}
+      >
+        <Image 
+          source={require('../../assets/image/icons/arrow.png')} 
+          style={styles.arrowIcon}
+        />
+      </TouchableOpacity>
+    </View>
+  );
+
   const renderStep3 = () => (
     <View style={styles.formContainer}>
       <Text style={styles.label}>The shape of the candies</Text>
@@ -189,6 +243,8 @@ const CreateSweet = ({navigation}) => {
           />
         </View>
       </TouchableOpacity>
+
+      {renderCandyPreview()}
     </View>
   );
 
@@ -520,5 +576,39 @@ const styles = StyleSheet.create({
     marginRight: 10,
     borderWidth: 1,
     borderColor: '#ddd',
+  },
+  candyPreviewContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 30,
+    paddingHorizontal: 20,
+  },
+  arrowButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#FDACFD',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  leftArrow: {
+    transform: [{ rotate: '180deg' }],
+  },
+  candyImageContainer: {
+    flex: 1,
+    alignItems: 'center',
+    marginHorizontal: 20,
+  },
+  candyBackground: {
+    width: 200,
+    height: 150,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  candyImage: {
+    width: 120,
+    height: 120,
   },
 });
