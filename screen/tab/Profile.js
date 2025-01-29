@@ -73,7 +73,9 @@ const ProfileCard = ({userName, userImage, onImagePress, onDeletePress}) => (
 );
 
 const Profile = () => {
-  const [userName, setUserName] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  const [userName, setUserName] = useState('Your Name'); // Get initial name from AsyncStorage
+  const [tempName, setTempName] = useState(userName);
   const [userImage, setUserImage] = useState(null);
   const [showNameInput, setShowNameInput] = useState(false);
   const [inputName, setInputName] = useState('');
@@ -89,7 +91,10 @@ const Profile = () => {
       const storedName = await AsyncStorage.getItem('@user_name');
       const storedImage = await AsyncStorage.getItem('@user_image');
 
-      if (storedName) setUserName(storedName);
+      if (storedName) {
+        setUserName(storedName);
+        setTempName(storedName);
+      }
       if (storedImage) setUserImage(storedImage);
     } catch (error) {
       Alert.alert('Error', 'Failed to load user data');
@@ -172,6 +177,21 @@ const Profile = () => {
       setInputName('');
     } catch (error) {
       Alert.alert('Error', 'Failed to create profile');
+    }
+  };
+
+  const handleSaveName = async () => {
+    if (tempName.trim()) {
+      try {
+        await AsyncStorage.setItem('@user_name', tempName);
+        setUserName(tempName);
+        setIsEditing(false);
+      } catch (error) {
+        console.error('Error saving user name:', error);
+        Alert.alert('Error', 'Failed to save name. Please try again.');
+      }
+    } else {
+      Alert.alert('Error', 'Name cannot be empty');
     }
   };
 
