@@ -2,6 +2,35 @@ import {StyleSheet, Text, View, Image, TouchableOpacity, Alert} from 'react-nati
 import React, {useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {launchImageLibrary} from 'react-native-image-picker';
+// import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
+const ProfileCard = ({ userName, userImage, onImagePress, onDeletePress }) => (
+  <View style={styles.profileCardContainer}>
+    <View style={styles.profileCard}>
+      <View style={styles.imageContainer}>
+        <TouchableOpacity onPress={onImagePress}>
+          <Image
+            source={userImage ? {uri: userImage} : require('../../assets/image/profile/defaultProfile.png')}
+            style={styles.profileImage}
+          />
+          <View style={styles.cameraIconContainer}>
+            {/* <Icon name="camera" size={20} color="#fff" /> */}
+            <Image source={require('../../assets/image/icons/edit.png')} style={styles.cameraIcon} />
+          </View>
+        </TouchableOpacity>
+      </View>
+      <Text style={styles.name}>{userName}</Text>
+      <Text style={styles.email}>alexandra.mironova-7902@yopmail.com</Text>
+      <TouchableOpacity 
+        style={styles.deleteButton} 
+        onPress={onDeletePress}
+      >
+        {/* <Icon name="delete" size={24} color="#FF4444" /> */}
+        <Image source={require('../../assets/image/icons/delete.png')} style={styles.deleteIcon} />
+      </TouchableOpacity>
+    </View>
+  </View>
+);
 
 const Profile = () => {
   const [userName, setUserName] = useState('Alexandra Mironova');
@@ -64,44 +93,41 @@ const Profile = () => {
     await saveUserData(newName, userImage);
   };
 
+  const handleDeleteProfile = async () => {
+    Alert.alert(
+      'Delete Profile',
+      'Are you sure you want to delete your profile?',
+      [
+        {text: 'Cancel', style: 'cancel'},
+        {
+          text: 'Delete',
+          onPress: async () => {
+            try {
+              await AsyncStorage.removeItem('@user_name');
+              await AsyncStorage.removeItem('@user_image');
+              setUserName('');
+              setUserImage(null);
+              Alert.alert('Success', 'Profile deleted successfully');
+            } catch (error) {
+              Alert.alert('Error', 'Failed to delete profile');
+            }
+          },
+          style: 'destructive',
+        },
+      ]
+    );
+  };
+
   return (
     <View style={styles.container}>
-      {/* Profile Header */}
       <Text style={styles.title}>Profile</Text>
-
-      {/* Profile Card */}
-      <View style={styles.profileCard}>
-        <TouchableOpacity onPress={pickImage}>
-          <Image
-            source={
-              userImage
-                ? {uri: userImage}
-                : require('../../assets/image/profile/defaultProfile.png')
-            }
-            style={styles.profileImage}
-          />
-          <Text style={styles.changePhotoText}>Change Photo</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          onPress={() => {
-            Alert.prompt(
-              'Update Name',
-              'Enter your new name',
-              [
-                {text: 'Cancel', style: 'cancel'},
-                {
-                  text: 'Update',
-                  onPress: (newName) => updateName(newName)
-                }
-              ],
-              'plain-text',
-              userName
-            );
-          }}
-        >
-          <Text style={styles.name}>{userName}</Text>
-        </TouchableOpacity>
-      </View>
+      
+      <ProfileCard 
+        userName={userName}
+        userImage={userImage}
+        onImagePress={pickImage}
+        onDeletePress={handleDeleteProfile}
+      />
 
       {/* Menu Items */}
       <TouchableOpacity style={styles.menuItem}>
@@ -131,28 +157,6 @@ const Profile = () => {
 export default Profile;
 
 const styles = StyleSheet.create({
-  profileImageContainer: {
-    // width: 80,
-    // height: 80,
-    // borderRadius: '50%',
-    marginBottom: 10,
-    backgroundColor: '#FFB6F3',
-    borderTopLeftRadius: '50%',
-    borderTopRightRadius: '50%',
-  },
-  profileInfo: {
-    // marginLeft: 10,
-    backgroundColor: '#FFB6F3',
-    // padding: 10,
-    borderRadius: 40,
-    top: -40,
-    paddingTop: 30,
-    paddingBottom: 10,
-    // paddingHorizontal: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '90%',
-  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -164,28 +168,70 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginBottom: 20,
   },
+  profileCardContainer: {
+    paddingHorizontal: 20,
+    marginBottom: 30,
+  },
   profileCard: {
-    // backgroundColor: '#FFB6F3',
+    backgroundColor: '#FDACFD',
     borderRadius: 30,
     padding: 20,
     alignItems: 'center',
-    marginBottom: 30,
+    // Custom shape styling
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    borderBottomLeftRadius: 60,
+    borderBottomRightRadius: 60,
+    // Add shadow
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  imageContainer: {
+    position: 'relative',
+    marginBottom: 10,
   },
   profileImage: {
-    width: 160,
-    height: 160,
-    borderRadius: 90,
-    marginBottom: 10,
-    padding: 20,
+    width: 120,
+    height: 120,
+    borderRadius: 40,
+    borderWidth: 3,
+    borderColor: '#fff',
+  },
+  cameraIconContainer: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    // backgroundColor: '#FDACFD',
+    borderRadius: 15,
+    // width: 30,
+    // height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // borderWidth: 2,
+    borderColor: '#fff',
   },
   name: {
     fontSize: 20,
     fontWeight: 'bold',
+    color: '#000',
     marginBottom: 5,
   },
   email: {
     fontSize: 14,
     color: '#333',
+    marginBottom: 10,
+  },
+  deleteButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    padding: 5,
   },
   menuItem: {
     flexDirection: 'row',
@@ -210,9 +256,15 @@ const styles = StyleSheet.create({
     // padding: 5,
     // borderRadius: 5,
   },
-  changePhotoText: {
-    fontSize: 14,
-    color: '#333',
-    marginTop: 5,
+  deleteIcon: {
+    width: 32,
+    height: 32,
+    tintColor: '#F93827',
+  },
+  cameraIcon: {
+    width: 36,
+    height: 36,
+    tintColor: '#00F4F7',
+    // padding: 15,
   },
 });
