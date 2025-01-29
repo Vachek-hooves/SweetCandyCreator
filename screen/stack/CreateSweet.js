@@ -32,6 +32,7 @@ const CreateSweet = ({navigation}) => {
   const [colorPickerType, setColorPickerType] = useState(null); // 'candy' or 'package'
   const [tempColor, setTempColor] = useState('#FFFFFF');
   const [currentCandyIndex, setCurrentCandyIndex] = useState(0);
+  const [customTaste, setCustomTaste] = useState('');
   const candyImages = [
     require('../../assets/image/candy/candy1.png'),
     require('../../assets/image/candy/candy2.png'),
@@ -267,7 +268,10 @@ const CreateSweet = ({navigation}) => {
             styles.tasteButton,
             formData.taste === tasteOption && styles.selectedTaste,
           ]}
-          onPress={() => setFormData({...formData, taste: tasteOption})}>
+          onPress={() => {
+            setFormData({...formData, taste: tasteOption});
+            setCustomTaste(''); // Clear custom taste when selecting predefined
+          }}>
           <Text
             style={[
               styles.tasteText,
@@ -277,6 +281,38 @@ const CreateSweet = ({navigation}) => {
           </Text>
         </TouchableOpacity>
       ))}
+
+      {/* Custom Taste Section */}
+      <View style={styles.customTasteContainer}>
+        <Text style={[styles.label, {marginTop: 20}]}>Or add your own taste</Text>
+        <View style={styles.customTasteInputContainer}>
+          <TextInput
+            style={styles.customTasteInput}
+            value={customTaste}
+            onChangeText={(text) => {
+              setCustomTaste(text);
+              if (text) {
+                setFormData({...formData, taste: text});
+              }
+            }}
+            placeholder="Enter custom taste"
+            placeholderTextColor="#999"
+          />
+          {customTaste ? (
+            <TouchableOpacity
+              style={styles.clearButton}
+              onPress={() => {
+                setCustomTaste('');
+                setFormData({...formData, taste: ''});
+              }}>
+              <Image
+                source={require('../../assets/image/icons/close.png')}
+                style={styles.clearIcon}
+              />
+            </TouchableOpacity>
+          ) : null}
+        </View>
+      </View>
     </View>
   );
 
@@ -643,5 +679,38 @@ const styles = StyleSheet.create({
   candyImage: {
     width: 120,
     height: 120,
+  },
+  customTasteContainer: {
+    marginTop: 10,
+  },
+  customTasteInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#F5F5F5',
+    borderRadius: 50,
+    marginTop: 10,
+    paddingHorizontal: 20,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 3,
+    elevation: 3,
+  },
+  customTasteInput: {
+    flex: 1,
+    height: 50,
+    fontSize: 16,
+    color: '#333',
+  },
+  clearButton: {
+    padding: 8,
+  },
+  clearIcon: {
+    width: 20,
+    height: 20,
+    tintColor: '#999',
   },
 });

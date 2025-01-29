@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import {useAppContext} from '../../store/context';
+import LinearGradient from 'react-native-linear-gradient';
 
 const CandyDetails = ({route, navigation}) => {
   const {sweet} = route.params;
@@ -42,9 +43,12 @@ const CandyDetails = ({route, navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+    <LinearGradient
+      colors={['#FFEFFF' + 10, '#FDACFD', '#FDACFD'+10]}
+      style={{flex: 1}}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
             source={require('../../assets/image/icons/back.png')}
             style={[styles.headerIcon, {tintColor: '#FDACFD'}]}
@@ -120,16 +124,17 @@ const CandyDetails = ({route, navigation}) => {
               />
             </View>
           </View>
-        </View>
-      </ScrollView>
-    </View>
+          </View>
+        </ScrollView>
+      </View>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
   },
   header: {
     flexDirection: 'row',
