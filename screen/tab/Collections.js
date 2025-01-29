@@ -1,17 +1,32 @@
-import {StyleSheet, Text, View, Image, TouchableOpacity, FlatList} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  FlatList,
+} from 'react-native';
 import React from 'react';
 import {useAppContext} from '../../store/context';
+import LinearGradient from 'react-native-linear-gradient';
+import LinearLayout from '../../components/layout/LinearLayout';
 
 const Collections = ({navigation}) => {
   const {collections} = useAppContext();
 
   const renderCollection = ({item}) => (
-    <TouchableOpacity 
+    <TouchableOpacity
       style={styles.collectionCard}
-      onPress={() => navigation.navigate('CollectionDetails', {collection: item})}>
+      onPress={() =>
+        navigation.navigate('CollectionDetails', {collection: item})
+      }>
       <View style={styles.imageWrapper}>
         <Image
-          source={item.image ? {uri: item.image} : require('../../assets/image/icons/placeholder.png')}
+          source={
+            item.image
+              ? {uri: item.image}
+              : require('../../assets/image/icons/placeholder.png')
+          }
           style={styles.collectionImage}
           resizeMode="cover"
         />
@@ -21,45 +36,47 @@ const Collections = ({navigation}) => {
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Collections</Text>
+    <LinearLayout>
+      <View style={styles.container}>
+        <Text style={styles.title}>Collections</Text>
 
-      {collections.length === 0 ? (
-        <View style={styles.emptyContainer}>
-          <Image
-            source={require('../../assets/image/vector/empty.png')}
-            style={styles.emptyImage}
-            resizeMode="contain"
-          />
-          <Text style={styles.emptyTitle}>No collections yet</Text>
-          <Text style={styles.emptyText}>
-            Create your first collection of candies
-          </Text>
-        </View>
-      ) : (
-        <FlatList
-          data={collections}
-          renderItem={renderCollection}
-          keyExtractor={item => item.id}
-          contentContainerStyle={styles.collectionsList}
-          numColumns={2}
-        />
-      )}
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-          style={styles.addButton}
-          onPress={() => navigation.navigate('CreateCollection')}>
-          <Text style={styles.buttonText}>ADD</Text>
-          <View style={styles.arrowContainer}>
+        {collections.length === 0 ? (
+          <View style={styles.emptyContainer}>
             <Image
-              source={require('../../assets/image/icons/arrow.png')}
-              style={styles.arrowIcon}
+              source={require('../../assets/image/vector/empty.png')}
+              style={styles.emptyImage}
+              resizeMode="contain"
             />
+            <Text style={styles.emptyTitle}>No collections yet</Text>
+            <Text style={styles.emptyText}>
+              Create your first collection of candies
+            </Text>
           </View>
-        </TouchableOpacity>
+        ) : (
+          <FlatList
+            data={collections}
+            renderItem={renderCollection}
+            keyExtractor={item => item.id}
+            contentContainerStyle={styles.collectionsList}
+            numColumns={2}
+          />
+        )}
+
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => navigation.navigate('CreateCollection')}>
+            <Text style={styles.buttonText}>ADD</Text>
+            <View style={styles.arrowContainer}>
+              <Image
+                source={require('../../assets/image/icons/arrow.png')}
+                style={styles.arrowIcon}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </LinearLayout>
   );
 };
 
@@ -68,7 +85,7 @@ export default Collections;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     padding: 20,
   },
   title: {

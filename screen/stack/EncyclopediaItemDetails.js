@@ -14,7 +14,7 @@ const EncyclopediaItemDetails = ({route, navigation}) => {
 
   return (
     <LinearGradient
-      colors={['#FFF','#FFE5FF','#FDACFD', '#FFE5FF', ]}
+      colors={['#FFF', '#FFE5FF', '#FDACFD', '#FFE5FF']}
       style={styles.container}>
       {/* Header with back button */}
       <View style={styles.header}>
