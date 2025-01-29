@@ -42,6 +42,25 @@ const CandyDetails = ({route, navigation}) => {
     ]);
   };
 
+  const renderCandyImage = () => {
+    if (sweet.image) {
+      return (
+        <Image
+          source={{uri: sweet.image}}
+          style={[styles.candyIcon]}
+          resizeMode="cover"
+        />
+      );
+    }
+    return (
+      <Image
+        source={require('../../assets/image/icons/lollipop.png')}
+        style={[styles.candyIcon,]}
+        resizeMode="contain"
+      />
+    );
+  };
+
   return (
     <LinearGradient
       colors={['#FFEFFF' + 10, '#FDACFD', '#FDACFD'+10]}
@@ -70,11 +89,7 @@ const CandyDetails = ({route, navigation}) => {
               styles.imageContainer,
               {backgroundColor: sweet.candyColor},
             ]}>
-            <Image
-              source={require('../../assets/image/icons/lollipop.png')}
-              style={styles.candyIcon}
-              resizeMode="contain"
-            />
+            {renderCandyImage()}
           </View>
           <Image
             source={candyImages[sweet.candyIndex]}
@@ -166,11 +181,11 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     justifyContent: 'center',
     alignItems: 'center',
+    overflow: 'hidden',
   },
   candyIcon: {
     width: '100%',
     height: '100%',
-    // tintColor: '#fff',
   },
   candyImage: {
     width: 80,

@@ -24,6 +24,25 @@ const SweetCard = ({sweet, navigation}) => {
     require('../../assets/image/candy/candy5.png'),
   ];
 
+  const renderCandyImage = () => {
+    if (sweet.image) {
+      return (
+        <Image
+          source={{uri: sweet.image}}
+          style={styles.candyIcon}
+          resizeMode="cover"
+        />
+      );
+    }
+    return (
+      <Image
+        source={require('../../assets/image/icons/lollipop.png')}
+        style={[styles.candyIcon,]}
+        resizeMode="contain"
+      />
+    );
+  };
+
   return (
     <TouchableOpacity
       style={styles.cardContainer}
@@ -31,11 +50,7 @@ const SweetCard = ({sweet, navigation}) => {
       <View style={[styles.cardContent, {borderColor: sweet.packageColor}]}>
         <View
           style={[styles.imageContainer, {backgroundColor: sweet.candyColor}]}>
-          <Image
-            source={require('../../assets/image/icons/lollipop.png')}
-            style={styles.candyIcon}
-            // resizeMode="contain"
-          />
+          {renderCandyImage()}
         </View>
         <Image
           source={candyImages[sweet.candyIndex]}
@@ -105,6 +120,7 @@ const Home = ({navigation}) => {
             </View>
           </TouchableOpacity>
         </View>
+      {/* <View style={{height: 90}} /> */}
       </View>
     </LinearLayout>
   );
@@ -168,11 +184,11 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     marginBottom: 15,
     marginHorizontal: 10,
+    overflow: 'hidden',
   },
   candyIcon: {
     width: '100%',
     height: '100%',
-    // tintColor: '#fff',
   },
   candyImage: {
     width: 40,
@@ -204,7 +220,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     position: 'absolute',
-    bottom: 90,
+    bottom: 10,
     left: 20,
     right: 20,
   },
