@@ -42,6 +42,27 @@ const CreateCollection = ({navigation}) => {
     });
   };
 
+  const renderItemImage = (item) => {
+    console.log(item);
+    if (item.image) {
+      return (
+        <Image 
+          source={item.image} 
+          style={styles.itemImage} 
+          resizeMode="cover"
+        />
+      );
+    }
+    // Fallback to default candy icon if no image
+    return (
+      <Image
+        source={require('../../assets/image/icons/lollipop.png')}
+        style={[styles.itemImage, {tintColor: item.candyColor || '#FDACFD'}]}
+        resizeMode="contain"
+      />
+    );
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -98,7 +119,12 @@ const CreateCollection = ({navigation}) => {
                 selectedItems.includes(item.id) && styles.selectedCard,
               ]}
               onPress={() => handleItemSelect(item.id)}>
-              <Image source={{uri: item.image}} style={styles.itemImage} />
+              <View style={[
+                styles.itemImageContainer, 
+                {backgroundColor: item.candyColor || '#F5F5F5'}
+              ]}>
+                {renderItemImage(item)}
+              </View>
               <View style={styles.itemInfo}>
                 <Text style={styles.itemName}>{item.name}</Text>
                 <Text style={styles.itemDescription} numberOfLines={2}>
@@ -198,16 +224,31 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#F0F0F0',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
   },
   selectedCard: {
     borderColor: '#FDACFD',
     backgroundColor: '#FDACFD10',
   },
-  itemImage: {
-    width: 60,
-    height: 60,
+  itemImageContainer: {
+    width: 80,
+    height: 80,
     borderRadius: 30,
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginRight: 15,
+  },
+  itemImage: {
+    width: '100%',
+    height: '100%',
   },
   itemInfo: {
     flex: 1,
