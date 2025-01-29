@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   sectionText: {
-    fontSize: 16,
+    fontSize: 18,
     lineHeight: 24,
     color: '#333',
     backgroundColor: '#fff',
@@ -118,5 +118,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 3,
+    fontWeight: '500',
+    letterSpacing: 0.5,
+    textAlign: 'justify',
   },
 });
