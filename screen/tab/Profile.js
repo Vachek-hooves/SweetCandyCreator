@@ -8,6 +8,7 @@ import {
   Modal,
   TextInput,
   ScrollView,
+  Linking,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -230,26 +231,32 @@ const Profile = () => {
           )}
 
           {/* Menu Items */}
-          <TouchableOpacity style={styles.menuItem}>
+          {/* <TouchableOpacity style={styles.menuItem} >
             <Text style={styles.menuText}>Developer Website</Text>
+            <View style={styles.arrowContainer}>
+              <Text style={styles.arrow}>›</Text>
+            </View>
+          </TouchableOpacity> */}
+
+          <TouchableOpacity
+            style={styles.menuItem}
+            onPress={() =>
+              Linking.openURL(
+                'https://www.termsfeed.com/live/0e73df6c-ab3f-4e3a-840f-cd9ae67ea615',
+              )
+            }>
+            <Text style={styles.menuText}>Privacy Policy</Text>
             <View style={styles.arrowContainer}>
               <Text style={styles.arrow}>›</Text>
             </View>
           </TouchableOpacity>
 
           {/* <TouchableOpacity style={styles.menuItem}>
-            <Text style={styles.menuText}>Privacy Policy</Text>
-            <View style={styles.arrowContainer}>
-              <Text style={styles.arrow}>›</Text>
-            </View>
-          </TouchableOpacity> */}
-
-          <TouchableOpacity style={styles.menuItem}>
             <Text style={styles.menuText}>Terms of Use</Text>
             <View style={styles.arrowContainer}>
               <Text style={styles.arrow}>›</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </ScrollView>
       </View>
     </LinearGradient>

@@ -1,8 +1,120 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, Animated} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Home, Encyclopedia, Profile} from '../tab';
+import React, {useRef, useEffect} from 'react';
 
 const Tab = createBottomTabNavigator();
+
+const AnimatedTabIcon = ({focused, iconSource, label}) => {
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+  const widthAnim = useRef(new Animated.Value(45)).current;
+  const opacityAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    // Reset animations when component mounts
+    if (focused) {
+      widthAnim.setValue(145);
+      scaleAnim.setValue(1.2);
+      opacityAnim.setValue(1);
+    } else {
+      widthAnim.setValue(45);
+      scaleAnim.setValue(1);
+      opacityAnim.setValue(0);
+    }
+
+    // Start animations after a small delay to avoid conflicts
+    const timeout = setTimeout(() => {
+      if (focused) {
+        // Width animation (non-native)
+        Animated.sequence([
+          Animated.delay(50), // Small delay before starting
+          Animated.spring(widthAnim, {
+            toValue: 145,
+            friction: 5,
+            tension: 40,
+            useNativeDriver: false,
+          })
+        ]).start();
+
+        // Scale and opacity animations (native)
+        Animated.parallel([
+          Animated.spring(scaleAnim, {
+            toValue: 1.2,
+            friction: 5,
+            tension: 100,
+            useNativeDriver: true,
+          }),
+          Animated.timing(opacityAnim, {
+            toValue: 1,
+            duration: 200,
+            useNativeDriver: true,
+          }),
+        ]).start();
+      } else {
+        // Width animation (non-native)
+        Animated.sequence([
+          Animated.delay(50),
+          Animated.spring(widthAnim, {
+            toValue: 45,
+            friction: 5,
+            tension: 40,
+            useNativeDriver: false,
+          })
+        ]).start();
+
+        // Scale and opacity animations (native)
+        Animated.parallel([
+          Animated.spring(scaleAnim, {
+            toValue: 1,
+            friction: 5,
+            tension: 40,
+            useNativeDriver: true,
+          }),
+          Animated.timing(opacityAnim, {
+            toValue: 0,
+            duration: 200,
+            useNativeDriver: true,
+          }),
+        ]).start();
+      }
+    }, 50);
+
+    return () => clearTimeout(timeout);
+  }, [focused]);
+
+  return (
+    <Animated.View
+      style={[
+        styles.tabItem,
+        {
+          backgroundColor: focused ? '#FDACFD' : '#F0F0F0',
+          width: widthAnim,
+        },
+      ]}>
+      <Animated.View style={{transform: [{scale: scaleAnim}]}}>
+        <Image
+          source={iconSource}
+          style={[
+            styles.icon,
+            {tintColor: focused ? '#fff' : '#999999'},
+          ]}
+          resizeMode="contain"
+        />
+      </Animated.View>
+      {focused && (
+        <Animated.Text 
+          style={[
+            styles.activeLabel,
+            {
+              opacity: opacityAnim,
+            },
+          ]}>
+          {label}
+        </Animated.Text>
+      )}
+    </Animated.View>
+  );
+};
 
 const TabNavMenu = () => {
   return (
@@ -34,24 +146,11 @@ const TabNavMenu = () => {
           }
 
           return (
-            <View style={[
-              styles.tabItem,
-              focused && styles.activeTabItem,
-            ]}>
-              <Image
-                source={iconSource}
-                style={[
-                  styles.icon,
-                  {tintColor: focused ? '#fff' : '#999999'},
-                ]}
-                resizeMode="contain"
-              />
-              {focused && (
-                <Text style={styles.activeLabel}>
-                  {route.name}
-                </Text>
-              )}
-            </View>
+            <AnimatedTabIcon
+              focused={focused}
+              iconSource={iconSource}
+              label={route.name}
+            />
           );
         },
         tabBarLabel: () => null,
@@ -87,7 +186,7 @@ const styles = StyleSheet.create({
     minWidth: 55,
     height: 50,
     backgroundColor: '#F0F0F0',
-    marginTop:30
+    marginTop: 30
   },
   activeTabItem: {
     backgroundColor: '#FDACFD',
@@ -97,7 +196,6 @@ const styles = StyleSheet.create({
   icon: {
     width: 32,
     height: 32,
-    
   },
   activeLabel: {
     color: '#fff',
