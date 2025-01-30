@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
   },
   nextButton: {
     color: '#FDACFD',
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: 'bold',
   },
   nextButtonDisabled: {

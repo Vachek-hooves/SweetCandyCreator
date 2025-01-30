@@ -553,7 +553,7 @@ const styles = StyleSheet.create({
     tintColor: '#FDACFD',
   },
   nextButtonDisabled: {
-    opacity: 0.5,
+    opacity: 0.3,
   },
   tasteButton: {
     backgroundColor: '#F5F5F5',

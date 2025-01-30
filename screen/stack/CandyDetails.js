@@ -74,8 +74,8 @@ const CandyDetails = ({route, navigation}) => {
           />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>{sweet.name}</Text>
-        {/* <TouchableOpacity onPress={handleDelete}> */}
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleDelete}>
+        {/* <TouchableOpacity> */}
           <Image
             source={require('../../assets/image/icons/delete.png')}
             style={[styles.headerIcon, {tintColor: '#FF4444'}]}
