@@ -33,11 +33,12 @@ const CreateSweet = ({navigation}) => {
   const [tempColor, setTempColor] = useState('#FFFFFF');
   const [currentCandyIndex, setCurrentCandyIndex] = useState(0);
   const [customTaste, setCustomTaste] = useState('');
+  const [colorPickerUsed, setColorPickerUsed] = useState(false);
   const candyImages = [
-    require('../../assets/image/candy/candy1.png'),
     require('../../assets/image/candy/candy2.png'),
     require('../../assets/image/candy/candy3.png'),
     require('../../assets/image/candy/candy4.png'),
+    require('../../assets/image/candy/candy1.png'),
     require('../../assets/image/candy/candy5.png'),
   ];
 
@@ -75,6 +76,7 @@ const CreateSweet = ({navigation}) => {
         : formData.packageColor || '#FFFFFF',
     );
     setShowColorPicker(true);
+    setColorPickerUsed(false);
   };
 
   const handleColorSelect = () => {
@@ -84,6 +86,7 @@ const CreateSweet = ({navigation}) => {
       setFormData({...formData, packageColor: tempColor});
     }
     setShowColorPicker(false);
+    setColorPickerUsed(true);
   };
 
   const isStep1Valid =
@@ -166,7 +169,10 @@ const CreateSweet = ({navigation}) => {
       </TouchableOpacity>
 
       <View style={styles.candyImageContainer}>
-        <View style={[styles.candyBackground, {backgroundColor: '#FDACFD20'}]}>
+        <View 
+          style={[styles.candyBackground, {backgroundColor: '#FDACFD20'}]}
+          key={`${formData.packageColor}-${colorPickerUsed}`}
+        >
           <Image
             source={candyImages[currentCandyIndex]}
             style={[
