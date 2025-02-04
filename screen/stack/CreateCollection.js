@@ -11,6 +11,7 @@ import {
 import React, {useState} from 'react';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useAppContext} from '../../store/context';
+import MainLayout from '../../components/layout/MainLayout';
 
 const CreateCollection = ({navigation}) => {
   const {encyclopediaData, saveCollection} = useAppContext();
@@ -35,7 +36,7 @@ const CreateCollection = ({navigation}) => {
     }
   };
 
-  const handleItemSelect = (itemId) => {
+  const handleItemSelect = itemId => {
     setSelectedItems(prev => {
       if (prev.includes(itemId)) {
         return prev.filter(id => id !== itemId);
@@ -64,7 +65,7 @@ const CreateCollection = ({navigation}) => {
       };
 
       const success = await saveCollection(newCollection);
-      
+
       if (success) {
         Alert.alert('Success', 'Collection saved successfully', [
           {
@@ -82,13 +83,13 @@ const CreateCollection = ({navigation}) => {
     }
   };
 
-  const renderItemImage = (item) => {
+  const renderItemImage = item => {
     console.log(item);
     if (item.image) {
       return (
-        <Image 
-          source={item.image} 
-          style={styles.itemImage} 
+        <Image
+          source={item.image}
+          style={styles.itemImage}
           resizeMode="cover"
         />
       );
@@ -104,98 +105,104 @@ const CreateCollection = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image
-            source={require('../../assets/image/icons/back.png')}
-            style={[styles.headerIcon, {tintColor: '#FDACFD'}]}
-          />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Creating collection</Text>
-        <TouchableOpacity 
-          onPress={handleSave}
-          disabled={isLoading}>
-          <Text style={[
-            styles.nextButton,
-            isLoading && styles.nextButtonDisabled
-          ]}>
-            {isLoading ? 'Saving...' : 'Next'}
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      <ScrollView style={styles.content}>
-        <TouchableOpacity 
-          style={styles.imagePickerContainer}
-          onPress={handleImagePick}>
-          {collectionImage ? (
+    <MainLayout>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <Image
-              source={{uri: collectionImage}}
-              style={styles.collectionImage}
+              source={require('../../assets/image/icons/back.png')}
+              style={[styles.headerIcon, {tintColor: '#FDACFD'}]}
             />
-          ) : (
-            <View style={styles.imagePlaceholder}>
-              <Image
-                source={require('../../assets/image/icons/camera.png')}
-                style={styles.cameraIcon}
-              />
-              <Text style={styles.imagePlaceholderText}>Add collection image</Text>
-            </View>
-          )}
-        </TouchableOpacity>
-
-        <TextInput
-          style={styles.nameInput}
-          value={collectionName}
-          onChangeText={setCollectionName}
-          placeholder="Collection name"
-          placeholderTextColor="#999"
-        />
-
-        <View style={styles.itemsContainer}>
-          {encyclopediaData.map(item => (
-            <TouchableOpacity
-              key={item.id}
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>Creating collection</Text>
+          <TouchableOpacity onPress={handleSave} disabled={isLoading}>
+            <Text
               style={[
-                styles.itemCard,
-                selectedItems.includes(item.id) && styles.selectedCard,
-              ]}
-              onPress={() => handleItemSelect(item.id)}>
-              <View style={[
-                styles.itemImageContainer, 
-                {backgroundColor: item.candyColor || '#F5F5F5'}
+                styles.nextButton,
+                isLoading && styles.nextButtonDisabled,
               ]}>
-                {renderItemImage(item)}
-              </View>
-              <View style={styles.itemInfo}>
-                <Text style={styles.itemName}>{item.name}</Text>
-                <Text style={styles.itemDescription} numberOfLines={2}>
-                  {item.description}
+              {isLoading ? 'Saving...' : 'Next'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        <ScrollView style={styles.content}>
+          <TouchableOpacity
+            style={styles.imagePickerContainer}
+            onPress={handleImagePick}>
+            {collectionImage ? (
+              <Image
+                source={{uri: collectionImage}}
+                style={styles.collectionImage}
+              />
+            ) : (
+              <View style={styles.imagePlaceholder}>
+                <Image
+                  source={require('../../assets/image/icons/camera.png')}
+                  style={styles.cameraIcon}
+                />
+                <Text style={styles.imagePlaceholderText}>
+                  Add collection image
                 </Text>
               </View>
-              <View style={styles.radioContainer}>
-                <View style={[
-                  styles.radioOuter,
-                  selectedItems.includes(item.id) && styles.radioOuterSelected,
-                ]}>
-                  {selectedItems.includes(item.id) && (
-                    <View style={styles.radioInner} />
-                  )}
+            )}
+          </TouchableOpacity>
+
+          <TextInput
+            style={styles.nameInput}
+            value={collectionName}
+            onChangeText={setCollectionName}
+            placeholder="Collection name"
+            placeholderTextColor="#999"
+          />
+
+          <View style={styles.itemsContainer}>
+            {encyclopediaData.map(item => (
+              <TouchableOpacity
+                key={item.id}
+                style={[
+                  styles.itemCard,
+                  selectedItems.includes(item.id) && styles.selectedCard,
+                ]}
+                onPress={() => handleItemSelect(item.id)}>
+                <View
+                  style={[
+                    styles.itemImageContainer,
+                    {backgroundColor: item.candyColor || '#F5F5F5'},
+                  ]}>
+                  {renderItemImage(item)}
                 </View>
-              </View>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </ScrollView>
-    </View>
+                <View style={styles.itemInfo}>
+                  <Text style={styles.itemName}>{item.name}</Text>
+                  <Text style={styles.itemDescription} numberOfLines={2}>
+                    {item.description}
+                  </Text>
+                </View>
+                <View style={styles.radioContainer}>
+                  <View
+                    style={[
+                      styles.radioOuter,
+                      selectedItems.includes(item.id) &&
+                        styles.radioOuterSelected,
+                    ]}>
+                    {selectedItems.includes(item.id) && (
+                      <View style={styles.radioInner} />
+                    )}
+                  </View>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </ScrollView>
+      </View>
+    </MainLayout>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
   },
   header: {
     flexDirection: 'row',

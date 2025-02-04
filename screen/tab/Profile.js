@@ -16,6 +16,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import LinearLayout from '../../components/layout/LinearLayout';
 import LinearGradient from 'react-native-linear-gradient';
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import MainLayout from '../../components/layout/MainLayout';
 
 const EmptyProfile = ({onCreatePress}) => (
   <View style={styles.profileCardContainer}>
@@ -199,86 +200,91 @@ const Profile = () => {
     <LinearGradient
       colors={['#FFEFFF' + 10, '#FDACFD', '#FDACFD']}
       style={{flex: 1}}>
-      <View style={styles.container}>
-        <ScrollView>
-          <Modal visible={showNameInput} transparent animationType="fade">
-            <View style={styles.modalOverlay}>
-              <View style={styles.modalContent}>
-                <Text style={styles.modalTitle}>Create Profile</Text>
-                <Text style={styles.modalSubtitle}>Please enter your name</Text>
+      <MainLayout>
+        <View style={styles.container}>
+          <ScrollView>
+            <Modal visible={showNameInput} transparent animationType="fade">
+              <View style={styles.modalOverlay}>
+                <View style={styles.modalContent}>
+                  <Text style={styles.modalTitle}>Create Profile</Text>
+                  <Text style={styles.modalSubtitle}>
+                    Please enter your name
+                  </Text>
 
-                <TextInput
-                  style={styles.input}
-                  value={inputName}
-                  onChangeText={setInputName}
-                  placeholder="Enter your name"
-                  autoFocus
-                />
+                  <TextInput
+                    style={styles.input}
+                    value={inputName}
+                    onChangeText={setInputName}
+                    placeholder="Enter your name"
+                    autoFocus
+                  />
 
-                <View style={styles.modalButtons}>
-                  <TouchableOpacity
-                    style={styles.modalButton}
-                    onPress={() => {
-                      setShowNameInput(false);
-                      setInputName('');
-                    }}>
-                    <Text style={styles.buttonText}>Cancel</Text>
-                  </TouchableOpacity>
+                  <View style={styles.modalButtons}>
+                    <TouchableOpacity
+                      style={styles.modalButton}
+                      onPress={() => {
+                        setShowNameInput(false);
+                        setInputName('');
+                      }}>
+                      <Text style={styles.buttonText}>Cancel</Text>
+                    </TouchableOpacity>
 
-                  <TouchableOpacity
-                    style={[styles.modalButton, styles.createButton]}
-                    onPress={handleCreateProfile}>
-                    <Text style={[styles.buttonText, styles.createButtonText]}>
-                      Create
-                    </Text>
-                  </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[styles.modalButton, styles.createButton]}
+                      onPress={handleCreateProfile}>
+                      <Text
+                        style={[styles.buttonText, styles.createButtonText]}>
+                        Create
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
-            </View>
-          </Modal>
+            </Modal>
 
-          <Text style={styles.title}>Profile</Text>
+            <Text style={styles.title}>Profile</Text>
 
-          {userName ? (
-            <ProfileCard
-              userName={userName}
-              userImage={userImage}
-              onImagePress={pickImage}
-              onDeletePress={handleDeleteProfile}
-            />
-          ) : (
-            <EmptyProfile onCreatePress={() => setShowNameInput(true)} />
-          )}
+            {userName ? (
+              <ProfileCard
+                userName={userName}
+                userImage={userImage}
+                onImagePress={pickImage}
+                onDeletePress={handleDeleteProfile}
+              />
+            ) : (
+              <EmptyProfile onCreatePress={() => setShowNameInput(true)} />
+            )}
 
-          {/* Menu Items */}
-          {/* <TouchableOpacity style={styles.menuItem} >
+            {/* Menu Items */}
+            {/* <TouchableOpacity style={styles.menuItem} >
             <Text style={styles.menuText}>Developer Website</Text>
             <View style={styles.arrowContainer}>
               <Text style={styles.arrow}>›</Text>
             </View>
           </TouchableOpacity> */}
 
-          <TouchableOpacity
-            style={styles.menuItem}
-            onPress={() =>
-              Linking.openURL(
-                'https://www.termsfeed.com/live/0e73df6c-ab3f-4e3a-840f-cd9ae67ea615',
-              )
-            }>
-            <Text style={styles.menuText}>Privacy Policy</Text>
-            <View style={styles.arrowContainer}>
-              <Text style={styles.arrow}>›</Text>
-            </View>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.menuItem}
+              onPress={() =>
+                Linking.openURL(
+                  'https://www.termsfeed.com/live/0e73df6c-ab3f-4e3a-840f-cd9ae67ea615',
+                )
+              }>
+              <Text style={styles.menuText}>Privacy Policy</Text>
+              <View style={styles.arrowContainer}>
+                <Text style={styles.arrow}>›</Text>
+              </View>
+            </TouchableOpacity>
 
-          {/* <TouchableOpacity style={styles.menuItem}>
+            {/* <TouchableOpacity style={styles.menuItem}>
             <Text style={styles.menuText}>Terms of Use</Text>
             <View style={styles.arrowContainer}>
               <Text style={styles.arrow}>›</Text>
             </View>
           </TouchableOpacity> */}
-        </ScrollView>
-      </View>
+          </ScrollView>
+        </View>
+      </MainLayout>
     </LinearGradient>
   );
 };

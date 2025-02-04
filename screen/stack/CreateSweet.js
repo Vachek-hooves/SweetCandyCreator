@@ -15,6 +15,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import ColorPicker from 'react-native-wheel-color-picker';
 import {useAppContext} from '../../store/context';
 import LinearGradient from 'react-native-linear-gradient';
+import MainLayout from '../../components/layout/MainLayout';
 const CreateSweet = ({navigation}) => {
   const {saveSweet, sweets} = useAppContext();
   const [currentStep, setCurrentStep] = useState(1);
@@ -169,10 +170,9 @@ const CreateSweet = ({navigation}) => {
       </TouchableOpacity>
 
       <View style={styles.candyImageContainer}>
-        <View 
+        <View
           style={[styles.candyBackground, {backgroundColor: '#FDACFD20'}]}
-          key={`${formData.packageColor}-${colorPickerUsed}`}
-        >
+          key={`${formData.packageColor}-${colorPickerUsed}`}>
           <Image
             source={candyImages[currentCandyIndex]}
             style={[
@@ -290,12 +290,14 @@ const CreateSweet = ({navigation}) => {
 
       {/* Custom Taste Section */}
       <View style={styles.customTasteContainer}>
-        <Text style={[styles.label, {marginTop: 20}]}>Or add your own taste</Text>
+        <Text style={[styles.label, {marginTop: 20}]}>
+          Or add your own taste
+        </Text>
         <View style={styles.customTasteInputContainer}>
           <TextInput
             style={styles.customTasteInput}
             value={customTaste}
-            onChangeText={(text) => {
+            onChangeText={text => {
               setCustomTaste(text);
               if (text) {
                 setFormData({...formData, taste: text});
@@ -345,76 +347,78 @@ const CreateSweet = ({navigation}) => {
   };
 
   return (
-    <LinearGradient   
-      colors={['#FDACFD', '#FFFFFF']}
-      style={styles.container}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          {renderHeaderLeft()}
-        <Text style={styles.headerTitle}>Creating candies</Text>
-        <TouchableOpacity
-          onPress={currentStep === totalSteps ? handleSubmit : handleNext}
-          disabled={currentStep === 1 && !isStep1Valid}>
-          <Text
-            style={[
-              styles.nextButton,
-              currentStep === 1 && !isStep1Valid && styles.nextButtonDisabled,
-            ]}>
-            {currentStep === totalSteps ? 'Create' : 'Next'}
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      <ScrollView style={styles.content}>
-        {currentStep === 1
-          ? renderStep1()
-          : currentStep === 2
-          ? renderStep2()
-          : renderStep3()}
-      </ScrollView>
-
-      <Modal visible={showColorPicker} transparent animationType="fade">
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>
-              {colorPickerType === 'candy'
-                ? 'Select Candy Color'
-                : 'Select Package Color'}
-            </Text>
-
-            <View style={styles.colorPickerContainer}>
-              <ColorPicker
-                color={tempColor}
-                onColorChange={setTempColor}
-                thumbSize={30}
-                sliderSize={30}
-                noSnap={true}
-                row={false}
-              />
-            </View>
-
-            <View style={styles.modalButtons}>
-              <TouchableOpacity
-                style={styles.modalButton}
-                onPress={() => setShowColorPicker(false)}>
-                <Text style={styles.modalButtonText}>Cancel</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.modalButton, styles.modalButtonConfirm]}
-                onPress={handleColorSelect}>
-                <Text
-                  style={[
-                    styles.modalButtonText,
-                    styles.modalButtonTextConfirm,
-                  ]}>
-                  Select
-                </Text>
-              </TouchableOpacity>
-            </View>
+    <LinearGradient colors={['#FDACFD', '#FFFFFF']} style={styles.container}>
+      <MainLayout>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            {renderHeaderLeft()}
+            <Text style={styles.headerTitle}>Creating candies</Text>
+            <TouchableOpacity
+              onPress={currentStep === totalSteps ? handleSubmit : handleNext}
+              disabled={currentStep === 1 && !isStep1Valid}>
+              <Text
+                style={[
+                  styles.nextButton,
+                  currentStep === 1 &&
+                    !isStep1Valid &&
+                    styles.nextButtonDisabled,
+                ]}>
+                {currentStep === totalSteps ? 'Create' : 'Next'}
+              </Text>
+            </TouchableOpacity>
           </View>
+
+          <ScrollView style={styles.content}>
+            {currentStep === 1
+              ? renderStep1()
+              : currentStep === 2
+              ? renderStep2()
+              : renderStep3()}
+          </ScrollView>
+
+          <Modal visible={showColorPicker} transparent animationType="fade">
+            <View style={styles.modalOverlay}>
+              <View style={styles.modalContent}>
+                <Text style={styles.modalTitle}>
+                  {colorPickerType === 'candy'
+                    ? 'Select Candy Color'
+                    : 'Select Package Color'}
+                </Text>
+
+                <View style={styles.colorPickerContainer}>
+                  <ColorPicker
+                    color={tempColor}
+                    onColorChange={setTempColor}
+                    thumbSize={30}
+                    sliderSize={30}
+                    noSnap={true}
+                    row={false}
+                  />
+                </View>
+
+                <View style={styles.modalButtons}>
+                  <TouchableOpacity
+                    style={styles.modalButton}
+                    onPress={() => setShowColorPicker(false)}>
+                    <Text style={styles.modalButtonText}>Cancel</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.modalButton, styles.modalButtonConfirm]}
+                    onPress={handleColorSelect}>
+                    <Text
+                      style={[
+                        styles.modalButtonText,
+                        styles.modalButtonTextConfirm,
+                      ]}>
+                      Select
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </Modal>
         </View>
-      </Modal>
-    </View>
+      </MainLayout>
     </LinearGradient>
   );
 };

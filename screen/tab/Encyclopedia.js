@@ -9,6 +9,7 @@ import {
 import React from 'react';
 import {useAppContext} from '../../store/context';
 import LinearLayout from '../../components/layout/LinearLayout';
+import MainLayout from '../../components/layout/MainLayout';
 
 const EncyclopediaItem = ({item, navigation}) => (
   <TouchableOpacity
@@ -35,24 +36,26 @@ const Encyclopedia = ({navigation}) => {
   }
 
   return (
-    <LinearLayout>
-      <View style={styles.container}>
-        <Text style={styles.title}>Encyclopedia</Text>
-        <ScrollView
-          contentContainerStyle={styles.scrollContainer}
-          showsVerticalScrollIndicator={false}>
-          <View style={styles.grid}>
-            {encyclopediaData.map(item => (
-              <EncyclopediaItem
-                key={item.id}
-                item={item}
-                navigation={navigation}
-              />
-            ))}
-          </View>
-        </ScrollView>
-      </View>
-    </LinearLayout>
+    // <LinearLayout>
+      <MainLayout>
+        <View style={styles.container}>
+          <Text style={styles.title}>Encyclopedia</Text>
+          <ScrollView
+            contentContainerStyle={styles.scrollContainer}
+            showsVerticalScrollIndicator={false}>
+            <View style={styles.grid}>
+              {encyclopediaData.map(item => (
+                <EncyclopediaItem
+                  key={item.id}
+                  item={item}
+                  navigation={navigation}
+                />
+              ))}
+            </View>
+          </ScrollView>
+        </View>
+      </MainLayout>
+    // </LinearLayout>
   );
 };
 

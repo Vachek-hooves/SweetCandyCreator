@@ -11,11 +11,12 @@ import React from 'react';
 import {useAppContext} from '../../store/context';
 import LinearGradient from 'react-native-linear-gradient';
 import LinearLayout from '../../components/layout/LinearLayout';
+import MainLayout from '../../components/layout/MainLayout';
 
 const Collections = ({navigation}) => {
   const {collections, deleteCollection} = useAppContext();
 
-  const handleDelete = (collection) => {
+  const handleDelete = collection => {
     Alert.alert(
       'Delete Collection',
       `Are you sure you want to delete "${collection.name}"?`,
@@ -40,9 +41,11 @@ const Collections = ({navigation}) => {
 
   const renderCollection = ({item}) => (
     <View style={styles.collectionCard}>
-      <TouchableOpacity 
+      <TouchableOpacity
         style={styles.cardContent}
-        onPress={() => navigation.navigate('CollectionDetails', {collection: item})}>
+        onPress={() =>
+          navigation.navigate('CollectionDetails', {collection: item})
+        }>
         <View style={styles.imageWrapper}>
           <Image
             source={
@@ -56,8 +59,8 @@ const Collections = ({navigation}) => {
         </View>
         <Text style={styles.collectionName}>{item.name}</Text>
       </TouchableOpacity>
-      
-      <TouchableOpacity 
+
+      <TouchableOpacity
         style={styles.deleteButton}
         onPress={() => handleDelete(item)}>
         <Image
@@ -70,45 +73,47 @@ const Collections = ({navigation}) => {
 
   return (
     <LinearLayout>
-      <View style={styles.container}>
-        <Text style={styles.title}>Collections</Text>
+      <MainLayout>
+        <View style={styles.container}>
+          <Text style={styles.title}>Collections</Text>
 
-        {collections.length === 0 ? (
-          <View style={styles.emptyContainer}>
-            <Image
-              source={require('../../assets/image/vector/empty.png')}
-              style={styles.emptyImage}
-              resizeMode="contain"
-            />
-            <Text style={styles.emptyTitle}>No collections yet</Text>
-            <Text style={styles.emptyText}>
-              Create your first collection of candies
-            </Text>
-          </View>
-        ) : (
-          <FlatList
-            data={collections}
-            renderItem={renderCollection}
-            keyExtractor={item => item.id}
-            contentContainerStyle={styles.collectionsList}
-            numColumns={2}
-          />
-        )}
-
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.addButton}
-            onPress={() => navigation.navigate('CreateCollection')}>
-            <Text style={styles.buttonText}>ADD</Text>
-            <View style={styles.arrowContainer}>
+          {collections.length === 0 ? (
+            <View style={styles.emptyContainer}>
               <Image
-                source={require('../../assets/image/icons/arrow.png')}
-                style={styles.arrowIcon}
+                source={require('../../assets/image/vector/empty.png')}
+                style={styles.emptyImage}
+                resizeMode="contain"
               />
+              <Text style={styles.emptyTitle}>No collections yet</Text>
+              <Text style={styles.emptyText}>
+                Create your first collection of candies
+              </Text>
             </View>
-          </TouchableOpacity>
+          ) : (
+            <FlatList
+              data={collections}
+              renderItem={renderCollection}
+              keyExtractor={item => item.id}
+              contentContainerStyle={styles.collectionsList}
+              numColumns={2}
+            />
+          )}
+
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={() => navigation.navigate('CreateCollection')}>
+              <Text style={styles.buttonText}>ADD</Text>
+              <View style={styles.arrowContainer}>
+                <Image
+                  source={require('../../assets/image/icons/arrow.png')}
+                  style={styles.arrowIcon}
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </MainLayout>
     </LinearLayout>
   );
 };

@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
+import MainLayout from '../../components/layout/MainLayout';
 
 const EncyclopediaItemDetails = ({route, navigation}) => {
   const {item} = route.params;
@@ -16,51 +17,57 @@ const EncyclopediaItemDetails = ({route, navigation}) => {
     <LinearGradient
       colors={['#FFF', '#FFE5FF', '#FDACFD', '#FFE5FF']}
       style={styles.container}>
-      {/* Header with back button */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.backButton}>
-          <Image
-            source={require('../../assets/image/icons/back.png')}
-            style={styles.backIcon}
-          />
-        </TouchableOpacity>
-        <Text style={styles.title}>{item.name}</Text>
-      </View>
-
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContainer}>
-        {/* Main Image with Gradient Overlay */}
-        <View style={styles.imageContainer}>
-          <Image source={item.image} style={styles.image} resizeMode="cover" />
-          <LinearGradient
-            colors={['transparent', '#FDACFD20']}
-            style={styles.imageGradient}
-          />
+      <MainLayout>
+        {/* Header with back button */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.backButton}>
+            <Image
+              source={require('../../assets/image/icons/back.png')}
+              style={styles.backIcon}
+            />
+          </TouchableOpacity>
+          <Text style={styles.title}>{item.name}</Text>
         </View>
 
-        {/* Origin Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Origin</Text>
-          <LinearGradient
-            colors={['#FFF', '#FFE5FF']}
-            style={styles.sectionGradient}>
-            <Text style={styles.sectionText}>{item.origin}</Text>
-          </LinearGradient>
-        </View>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollContainer}>
+          {/* Main Image with Gradient Overlay */}
+          <View style={styles.imageContainer}>
+            <Image
+              source={item.image}
+              style={styles.image}
+              resizeMode="cover"
+            />
+            <LinearGradient
+              colors={['transparent', '#FDACFD20']}
+              style={styles.imageGradient}
+            />
+          </View>
 
-        {/* Features Section */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Features</Text>
-          <LinearGradient
-            colors={['#FFF', '#FFE5FF']}
-            style={styles.sectionGradient}>
-            <Text style={styles.sectionText}>{item.features}</Text>
-          </LinearGradient>
-        </View>
-      </ScrollView>
+          {/* Origin Section */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Origin</Text>
+            <LinearGradient
+              colors={['#FFF', '#FFE5FF']}
+              style={styles.sectionGradient}>
+              <Text style={styles.sectionText}>{item.origin}</Text>
+            </LinearGradient>
+          </View>
+
+          {/* Features Section */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Features</Text>
+            <LinearGradient
+              colors={['#FFF', '#FFE5FF']}
+              style={styles.sectionGradient}>
+              <Text style={styles.sectionText}>{item.features}</Text>
+            </LinearGradient>
+          </View>
+        </ScrollView>
+      </MainLayout>
     </LinearGradient>
   );
 };

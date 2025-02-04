@@ -10,6 +10,7 @@ import {
 import React from 'react';
 import {useAppContext} from '../../store/context';
 import LinearGradient from 'react-native-linear-gradient';
+import MainLayout from '../../components/layout/MainLayout';
 
 const CandyDetails = ({route, navigation}) => {
   const {sweet} = route.params;
@@ -55,7 +56,7 @@ const CandyDetails = ({route, navigation}) => {
     return (
       <Image
         source={require('../../assets/image/icons/lollipop.png')}
-        style={[styles.candyIcon,]}
+        style={[styles.candyIcon]}
         resizeMode="contain"
       />
     );
@@ -63,86 +64,88 @@ const CandyDetails = ({route, navigation}) => {
 
   return (
     <LinearGradient
-      colors={['#FFEFFF' + 10, '#FDACFD', '#FDACFD'+10]}
+      colors={['#FFEFFF' + 10, '#FDACFD', '#FDACFD' + 10]}
       style={{flex: 1}}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image
-            source={require('../../assets/image/icons/back.png')}
-            style={[styles.headerIcon, {tintColor: '#FDACFD'}]}
-          />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>{sweet.name}</Text>
-        <TouchableOpacity onPress={handleDelete}>
-        {/* <TouchableOpacity> */}
-          <Image
-            source={require('../../assets/image/icons/delete.png')}
-            style={[styles.headerIcon, {tintColor: '#FF4444'}]}
-          />
-        </TouchableOpacity>
-      </View>
-
-      <ScrollView style={styles.content}>
-        <View style={styles.candyPreview}>
-          <View
-            style={[
-              styles.imageContainer,
-              {backgroundColor: sweet.candyColor},
-            ]}>
-            {renderCandyImage()}
-          </View>
-          <Image
-            source={candyImages[sweet.candyIndex]}
-            style={[styles.candyImage, {tintColor: sweet.packageColor}]}
-            resizeMode="contain"
-          />
-        </View>
-
-        <View style={styles.detailsContainer}>
-          <View style={styles.detailRow}>
-            <Text style={styles.label}>Name</Text>
-            <Text style={styles.value}>{sweet.name}</Text>
+      <MainLayout>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Image
+                source={require('../../assets/image/icons/back.png')}
+                style={[styles.headerIcon, {tintColor: '#FDACFD'}]}
+              />
+            </TouchableOpacity>
+            <Text style={styles.headerTitle}>{sweet.name}</Text>
+            <TouchableOpacity onPress={handleDelete}>
+              {/* <TouchableOpacity> */}
+              <Image
+                source={require('../../assets/image/icons/delete.png')}
+                style={[styles.headerIcon, {tintColor: '#FF4444'}]}
+              />
+            </TouchableOpacity>
           </View>
 
-          <View style={styles.detailRow}>
-            <Text style={styles.label}>Taste</Text>
-            <Text style={styles.value}>{sweet.taste}</Text>
-          </View>
-
-          <View style={styles.detailRow}>
-            <Text style={styles.label}>Shape</Text>
-            <Text style={styles.value}>{sweet.shape}</Text>
-          </View>
-
-          <View style={styles.detailRow}>
-            <Text style={styles.label}>Description</Text>
-            <Text style={styles.description}>{sweet.description}</Text>
-          </View>
-
-          <View style={styles.colorSection}>
-            <View style={styles.colorRow}>
-              <Text style={styles.label}>Candy Color</Text>
+          <ScrollView style={styles.content}>
+            <View style={styles.candyPreview}>
               <View
                 style={[
-                  styles.colorPreview,
+                  styles.imageContainer,
                   {backgroundColor: sweet.candyColor},
-                ]}
+                ]}>
+                {renderCandyImage()}
+              </View>
+              <Image
+                source={candyImages[sweet.candyIndex]}
+                style={[styles.candyImage, {tintColor: sweet.packageColor}]}
+                resizeMode="contain"
               />
             </View>
-            <View style={styles.colorRow}>
-              <Text style={styles.label}>Package Color</Text>
-              <View
-                style={[
-                  styles.colorPreview,
-                  {backgroundColor: sweet.packageColor},
-                ]}
-              />
+
+            <View style={styles.detailsContainer}>
+              <View style={styles.detailRow}>
+                <Text style={styles.label}>Name</Text>
+                <Text style={styles.value}>{sweet.name}</Text>
+              </View>
+
+              <View style={styles.detailRow}>
+                <Text style={styles.label}>Taste</Text>
+                <Text style={styles.value}>{sweet.taste}</Text>
+              </View>
+
+              <View style={styles.detailRow}>
+                <Text style={styles.label}>Shape</Text>
+                <Text style={styles.value}>{sweet.shape}</Text>
+              </View>
+
+              <View style={styles.detailRow}>
+                <Text style={styles.label}>Description</Text>
+                <Text style={styles.description}>{sweet.description}</Text>
+              </View>
+
+              <View style={styles.colorSection}>
+                <View style={styles.colorRow}>
+                  <Text style={styles.label}>Candy Color</Text>
+                  <View
+                    style={[
+                      styles.colorPreview,
+                      {backgroundColor: sweet.candyColor},
+                    ]}
+                  />
+                </View>
+                <View style={styles.colorRow}>
+                  <Text style={styles.label}>Package Color</Text>
+                  <View
+                    style={[
+                      styles.colorPreview,
+                      {backgroundColor: sweet.packageColor},
+                    ]}
+                  />
+                </View>
+              </View>
             </View>
-          </View>
-          </View>
-        </ScrollView>
-      </View>
+          </ScrollView>
+        </View>
+      </MainLayout>
     </LinearGradient>
   );
 };

@@ -9,6 +9,7 @@ import {
 import React from 'react';
 import {useAppContext} from '../../store/context';
 import LinearLayout from '../../components/layout/LinearLayout';
+import MainLayout from '../../components/layout/MainLayout';
 
 const CollectionDetails = ({route, navigation}) => {
   const {collection} = route.params;
@@ -39,70 +40,72 @@ const CollectionDetails = ({route, navigation}) => {
   };
 
   return (
-    <LinearLayout>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.backButton}
-            onPress={() => navigation.goBack()}>
-            <Image
-              source={require('../../assets/image/icons/back.png')}
-              style={[styles.headerIcon, {tintColor: '#FFF'}]}
-            />
-          </TouchableOpacity>
-        </View>
+    // <LinearLayout>
+      <MainLayout>
+        <View style={styles.container}>
+          <View style={styles.header}>
+            <TouchableOpacity
+              style={styles.backButton}
+              onPress={() => navigation.goBack()}>
+              <Image
+                source={require('../../assets/image/icons/back.png')}
+                style={[styles.headerIcon, {tintColor: '#FFF'}]}
+              />
+            </TouchableOpacity>
+          </View>
 
-        <ScrollView style={styles.content}>
-          <View style={styles.collectionHeader}>
-            <View style={styles.imageContainer}>
-              {collection.image ? (
-                <Image
-                  source={{uri: collection.image}}
-                  style={styles.collectionImage}
-                  resizeMode="cover"
-                />
-              ) : (
-                <Image
-                  source={require('../../assets/image/icons/placeholder.png')}
-                  style={styles.collectionImage}
-                  resizeMode="contain"
-                />
-              )}
+          <ScrollView style={styles.content}>
+            <View style={styles.collectionHeader}>
+              <View style={styles.imageContainer}>
+                {collection.image ? (
+                  <Image
+                    source={{uri: collection.image}}
+                    style={styles.collectionImage}
+                    resizeMode="cover"
+                  />
+                ) : (
+                  <Image
+                    source={require('../../assets/image/icons/placeholder.png')}
+                    style={styles.collectionImage}
+                    resizeMode="contain"
+                  />
+                )}
+              </View>
+              <Text style={styles.collectionName}>{collection.name}</Text>
+              <Text style={styles.itemCount}>
+                {collectionItems.length}{' '}
+                {collectionItems.length === 1 ? 'item' : 'items'}
+              </Text>
             </View>
-            <Text style={styles.collectionName}>{collection.name}</Text>
-            <Text style={styles.itemCount}>
-              {collectionItems.length}{' '}
-              {collectionItems.length === 1 ? 'item' : 'items'}
-            </Text>
-          </View>
 
-          <View style={styles.itemsContainer}>
-            {collectionItems.map(item => (
-              <TouchableOpacity
-                key={item.id}
-                style={styles.itemCard}
-                onPress={() =>
-                  navigation.navigate('EncyclopediaItemDetails', {item})
-                }>
-                <View
-                  style={[
-                    styles.itemImageContainer,
-                    {backgroundColor: item.candyColor || '#F5F5F5'},
-                  ]}>
-                  {renderItemImage(item)}
-                </View>
-                <View style={styles.itemInfo}>
-                  <Text style={styles.itemName}>{item.name}</Text>
-                  <Text style={styles.itemDescription} numberOfLines={2}>
-                    {item.description}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </ScrollView>
-      </View>
-    </LinearLayout>
+            <View style={styles.itemsContainer}>
+              {collectionItems.map(item => (
+                <TouchableOpacity
+                  key={item.id}
+                  style={styles.itemCard}
+                  onPress={() =>
+                    navigation.navigate('EncyclopediaItemDetails', {item})
+                  }>
+                  <View
+                    style={[
+                      styles.itemImageContainer,
+                      {backgroundColor: item.candyColor || '#F5F5F5'},
+                    ]}>
+                    {renderItemImage(item)}
+                  </View>
+                  <View style={styles.itemInfo}>
+                    <Text style={styles.itemName}>{item.name}</Text>
+                    <Text style={styles.itemDescription} numberOfLines={2}>
+                      {item.description}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </ScrollView>
+        </View>
+      </MainLayout>
+    // </LinearLayout>
   );
 };
 
