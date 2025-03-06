@@ -375,7 +375,7 @@ const CreateSweet = ({navigation}) => {
       </ScrollView>
 
       <Modal visible={showColorPicker} transparent animationType="fade">
-        <View style={styles.modalOverlay}>
+        <ScrollView contentContainerStyle={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>
               {colorPickerType === 'candy'
@@ -403,17 +403,13 @@ const CreateSweet = ({navigation}) => {
               <TouchableOpacity
                 style={[styles.modalButton, styles.modalButtonConfirm]}
                 onPress={handleColorSelect}>
-                <Text
-                  style={[
-                    styles.modalButtonText,
-                    styles.modalButtonTextConfirm,
-                  ]}>
+                <Text style={[styles.modalButtonText, styles.modalButtonTextConfirm]}>
                   Select
                 </Text>
               </TouchableOpacity>
             </View>
           </View>
-        </View>
+        </ScrollView>
       </Modal>
     </View>
     </LinearGradient>
@@ -655,10 +651,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   modalOverlay: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical: 20,
   },
   modalContent: {
     backgroundColor: 'white',
@@ -666,6 +663,7 @@ const styles = StyleSheet.create({
     padding: 20,
     width: '90%',
     maxWidth: 400,
+    maxHeight: '130%',
   },
   modalTitle: {
     fontSize: 18,
@@ -675,6 +673,7 @@ const styles = StyleSheet.create({
   },
   colorPickerContainer: {
     height: 300,
+    minHeight: 250,
   },
   modalButtons: {
     flexDirection: 'row',
