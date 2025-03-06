@@ -605,7 +605,7 @@ const styles = StyleSheet.create({
         shadowColor: 'rgba(0, 0, 0, 0.1)',
         shadowOffset: {
           width: 0,
-          height: 2,
+          height: 4,
         },
         shadowOpacity: 0.5,
         shadowRadius: 15,
@@ -618,8 +618,8 @@ const styles = StyleSheet.create({
   },
   selectedTaste: {
     backgroundColor: '#FDACFD20',
-    borderColor: '#FDACFD',
-    borderWidth: 0.1,
+    borderColor: 'transparent',
+    borderWidth: 3,
     borderRadius: 50,
     ...Platform.select({
       ios: {
@@ -628,11 +628,11 @@ const styles = StyleSheet.create({
           width: 0,
           height: 4,
         },
-        shadowOpacity: 0.4,
-        shadowRadius: 10,
+        shadowOpacity: 0.5,
+        shadowRadius: 15,
       },
       android: {
-        elevation: 2,
+        elevation: 4,
         overflow: 'hidden',
       },
     }),
