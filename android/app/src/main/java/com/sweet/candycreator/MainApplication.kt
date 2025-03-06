@@ -1,4 +1,4 @@
-package com.sweetcandycreator
+package com.sweet.candycreator
 
 import android.app.Application
 import com.facebook.react.PackageList

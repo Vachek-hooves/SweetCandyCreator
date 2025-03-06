@@ -33,7 +33,7 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSCameraUsageDescription</key>
 	<string>This app requires access to the camera to set user profile picture.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

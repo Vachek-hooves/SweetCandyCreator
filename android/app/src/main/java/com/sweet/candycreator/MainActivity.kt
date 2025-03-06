@@ -1,4 +1,4 @@
-package com.sweetcandycreator
+package com.sweet.candycreator
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
