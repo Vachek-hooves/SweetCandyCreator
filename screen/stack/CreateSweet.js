@@ -644,7 +644,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   selectedTasteText: {
-    color: '#FDACFD',
+    // color: '#FDACFD',
+    color: 'white',
     fontWeight: 'bold',
   },
   prevButton: {
