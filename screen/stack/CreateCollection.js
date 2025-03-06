@@ -7,6 +7,7 @@ import {
   TextInput,
   ScrollView,
   Alert,
+  Platform,
 } from 'react-native';
 import React, {useState} from 'react';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -265,24 +266,39 @@ const styles = StyleSheet.create({
   itemCard: {
     flexDirection: 'row',
     padding: 15,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     borderRadius: 15,
-    borderWidth: 1,
-    borderColor: '#F0F0F0',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3,
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgba(0, 0, 0, 0.1)',
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 15,
+        borderWidth: 1,
+        borderColor: '#F0F0F0',
+      },
+      android: {
+        elevation: 8,
+        overflow: 'hidden',
+      },
+    }),
   },
   selectedCard: {
-    borderColor: '#FDACFD',
-    borderColor: 'transparent',
     backgroundColor: '#FDACFD10',
+    borderColor: 'transparent',
+    borderWidth: 3,
+    ...Platform.select({
+      ios: {
+        shadowOpacity: 0.3,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
   },
   itemImageContainer: {
     width: 80,
@@ -292,6 +308,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 15,
+    backgroundColor: '#F5F5F5',
   },
   itemImage: {
     width: '100%',

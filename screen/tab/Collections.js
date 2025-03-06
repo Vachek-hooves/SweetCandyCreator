@@ -92,6 +92,7 @@ const Collections = ({navigation}) => {
             keyExtractor={item => item.id}
             contentContainerStyle={styles.collectionsList}
             numColumns={2}
+            showsVerticalScrollIndicator={false}
           />
         )}
 
@@ -124,8 +125,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    marginTop: 60,
-    marginBottom: 30,
+    marginTop: 30,
+    marginBottom: 20,
   },
   emptyContainer: {
     flex: 1,
@@ -151,7 +152,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     position: 'absolute',
-    bottom: 20,
+    bottom: 10,
     left: 20,
     right: 20,
     ...Platform.select({
@@ -196,6 +197,8 @@ const styles = StyleSheet.create({
   },
   collectionsList: {
     padding: 15,
+    marginBottom: 150,
+   
   },
   collectionCard: {
     flex: 1,
@@ -212,6 +215,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 3,
     position: 'relative',
+    marginBottom: 40,
   },
   cardContent: {
     alignItems: 'center',
