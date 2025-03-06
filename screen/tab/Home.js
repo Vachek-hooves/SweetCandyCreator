@@ -157,32 +157,33 @@ const styles = StyleSheet.create({
   cardContainer: {
     width: '48%',
     marginBottom: 15,
+    borderRadius: 20,
   },
   cardContent: {
-    backgroundColor: '#fff',
+    backgroundColor: '#FFFFFF',
     borderRadius: 20,
-    // padding: 10,
     borderWidth: 2,
-    borderColor: '#FDACFD',
-    // alignItems: 'center',
-    // Shadow
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3,
     paddingVertical: 15,
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgba(0, 0, 0, 0.1)',
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 15,
+      },
+      android: {
+        elevation: 8,
+        overflow: 'hidden',
+      },
+    }),
   },
   imageContainer: {
     width: 120,
     height: 120,
     borderRadius: 30,
-    backgroundColor: '#FDACFD',
-    // justifyContent: 'center',
-    // alignItems: 'center',
     marginBottom: 15,
     marginHorizontal: 10,
     overflow: 'hidden',
