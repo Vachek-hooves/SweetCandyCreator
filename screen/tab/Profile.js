@@ -9,6 +9,7 @@ import {
   TextInput,
   ScrollView,
   Linking,
+  Platform,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -303,23 +304,24 @@ const styles = StyleSheet.create({
   },
   profileCard: {
     backgroundColor: '#FDACFD',
-    borderRadius: 30,
     padding: 20,
     alignItems: 'center',
-    // Custom shape styling
-    borderTopLeftRadius: 40,
-    borderTopRightRadius: 40,
-    borderBottomLeftRadius: 60,
-    borderBottomRightRadius: 60,
-    // Add shadow
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    borderRadius: 60,
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgba(0, 0, 0, 0.1)',
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 15,
+      },
+      android: {
+        elevation: 8,
+        overflow: 'hidden',
+      },
+    }),
   },
   imageContainer: {
     position: 'relative',
@@ -400,11 +402,26 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 40,
-    backgroundColor: '#FFF',
+    backgroundColor: '#FFFFFF',
     justifyContent: 'center',
     alignItems: 'center',
     borderWidth: 3,
     borderColor: '#fff',
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgba(0, 0, 0, 0.1)',
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 4,
+        overflow: 'hidden',
+      },
+    }),
   },
   addIcon: {
     width: 40,
