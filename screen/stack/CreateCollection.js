@@ -281,6 +281,7 @@ const styles = StyleSheet.create({
   },
   selectedCard: {
     borderColor: '#FDACFD',
+    borderColor: 'transparent',
     backgroundColor: '#FDACFD10',
   },
   itemImageContainer: {
