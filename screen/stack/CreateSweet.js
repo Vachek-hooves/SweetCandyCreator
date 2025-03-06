@@ -9,6 +9,7 @@ import {
   Modal,
   Dimensions,
   Alert,
+  Platform,
 } from 'react-native';
 import React, {useState} from 'react';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -462,15 +463,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     marginBottom: 30,
-    // Add shadow
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
   },
   imagePlaceholder: {
     width: 150,
@@ -511,19 +517,33 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     padding: 20,
     marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
-    elevation: 3,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
   },
   selectedShape: {
     backgroundColor: '#FDACFD20',
     borderColor: '#FDACFD',
     borderWidth: 3,
+    ...Platform.select({
+      ios: {
+        shadowOpacity: 0.15,
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
   },
   shapeText: {
     fontSize: 18,
@@ -541,6 +561,20 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     padding: 15,
     marginBottom: 10,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
+      },
+      android: {
+        elevation: 4,
+      },
+    }),
   },
   colorButtonText: {
     fontSize: 18,
@@ -562,28 +596,52 @@ const styles = StyleSheet.create({
     opacity: 0.3,
   },
   tasteButton: {
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#FFFFFF',
     borderRadius: 50,
     padding: 20,
     marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
-    elevation: 3,
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgba(0, 0, 0, 0.1)',
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 15,
+      },
+      android: {
+        elevation: 8,
+        overflow: 'hidden',
+      },
+    }),
   },
   selectedTaste: {
     backgroundColor: '#FDACFD20',
     borderColor: '#FDACFD',
-    borderWidth: 3,
+    borderWidth: 0.1,
+    borderRadius: 50,
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgba(253, 172, 253, 0.3)',
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.4,
+        shadowRadius: 10,
+      },
+      android: {
+        elevation: 2,
+        overflow: 'hidden',
+      },
+    }),
   },
   tasteText: {
     fontSize: 18,
     color: '#666',
     fontWeight: '500',
+    textAlign: 'center',
   },
   selectedTasteText: {
     color: '#FDACFD',
@@ -692,18 +750,26 @@ const styles = StyleSheet.create({
   customTasteInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#FFFFFF',
     borderRadius: 50,
     marginTop: 10,
     paddingHorizontal: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
-    elevation: 3,
+    height: 60,
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgba(0, 0, 0, 0.1)',
+        shadowOffset: {
+          width: 0,
+          height: 4,
+        },
+        shadowOpacity: 0.5,
+        shadowRadius: 15,
+      },
+      android: {
+        elevation: 8,
+        overflow: 'hidden',
+      },
+    }),
   },
   customTasteInput: {
     flex: 1,
