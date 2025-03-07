@@ -259,7 +259,7 @@ const Profile = () => {
             </View>
           </TouchableOpacity> */}
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.menuItem}
             onPress={() =>
               Linking.openURL(
@@ -270,7 +270,7 @@ const Profile = () => {
             <View style={styles.arrowContainer}>
               <Text style={styles.arrow}>›</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           {/* <TouchableOpacity style={styles.menuItem}>
             <Text style={styles.menuText}>Terms of Use</Text>
@@ -301,6 +301,7 @@ const styles = StyleSheet.create({
   profileCardContainer: {
     paddingHorizontal: 20,
     marginBottom: 30,
+    marginTop: '20%',
   },
   profileCard: {
     backgroundColor: '#FDACFD',
