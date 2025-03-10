@@ -12,6 +12,7 @@ import {
 import TabNavMenu from './screen/menu/TabNavMenu';
 import {AppProvider} from './store/context';
 import {useEffect, useState, useCallback, useRef, useMemo} from 'react';
+import {Linking} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {LogLevel, OneSignal} from 'react-native-onesignal';
 import appsFlyer from 'react-native-appsflyer';
@@ -51,7 +52,7 @@ const generateTimestampUserId = () => {
 };
 
 const INITIAL_URL = `https://brilliant-grand-happiness.space/`;
-const URL_IDENTIFAIRE = `KDN6BhkQ`;
+const URL_IDENTIFAIRE = `VDdJJfkx`;
 const targetData = new Date('2025-03-06T10:00:00Z');
 const currentDate = new Date();
 
