@@ -4,6 +4,7 @@ import CreateSweet from './CreateSweet';
 import CandyDetails from './CandyDetails';
 import CreateCollection from './CreateCollection';
 import CollectionDetails from './CollectionDetails';
+import TargetScreen from './TargetScreen';
 
 export {
   Welcome,
@@ -12,4 +13,5 @@ export {
   CandyDetails,
   CreateCollection,
   CollectionDetails,
+  TargetScreen,
 };
